@@ -100,7 +100,6 @@
             }
             document.getElementById('temperature').innerHTML += `<i class="bi ${iconClass}"></i>`;
 
-            // Předpověď pro následující hodiny
             let forecastTextFuture = '';
             for (let i = 1; i <= 3; i++) {
               const forecastTemperature = data.hourly.temperature_2m[i];
@@ -120,7 +119,6 @@
 
             document.getElementById('forecast-future').innerHTML = forecastTextFuture;
 
-            // Předpověď pro předchozí hodiny (od nejvzdálenější k aktuální)
             let forecastTextPast = '';
             for (let i = 3; i >= 1; i--) {
               const pastHourIndex = now.getHours() - i;
