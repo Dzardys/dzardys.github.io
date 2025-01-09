@@ -101,7 +101,7 @@
             document.getElementById('temperature').innerHTML += `<i class="bi ${iconClass}"></i>`;
 
             let forecastTextFuture = '';
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 5; i++) {
               const forecastTemperature = data.hourly.temperature_2m[i];
               const hour = (now.getHours() + i) % 24;
 
@@ -120,7 +120,7 @@
             document.getElementById('forecast-future').innerHTML = forecastTextFuture;
 
             let forecastTextPast = '';
-            for (let i = 3; i >= 1; i--) {
+            for (let i = 5; i >= 1; i--) {
               const pastHourIndex = now.getHours() - i;
               const pastTemperature = data.hourly.temperature_2m[(pastHourIndex + 24) % 24];
               const hour = (pastHourIndex + 24) % 24;
