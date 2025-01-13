@@ -6,9 +6,11 @@
   <title>Počasí</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #f9f9fa;
+      background: linear-gradient(to bottom, #74b9ff, #dfe6e9);
+      font-family: 'Roboto', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -17,50 +19,103 @@
       margin: 0;
     }
     .card {
-      width: 800px;
+      width: 100%;
+      max-width: 600px;
       border: 0;
       border-radius: 16px;
-      background: linear-gradient(to bottom, #d6eef6, #f6f9ff);
+      background: linear-gradient(to bottom, #ffffff, #f1f2f6);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
     }
     .card-body {
       text-align: center;
-      padding: 3rem;
+      padding: 2rem;
     }
     .weather-date, .weather-location {
-      color: #969696;
-      font-size: 20px;
+      color: #636e72;
+      font-size: 18px;
     }
     .display-3 {
       font-size: 4rem;
       font-weight: bold;
       margin: 1rem 0;
+      color: #0984e3;
     }
-    .forecast {
-      font-size: 16px;
-      color: #555;
+    .forecast-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1rem;
+    }
+    .forecast-card {
+      background: #ffffff;
+      border: 1px solid #dfe6e9;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .forecast-card i {
+      font-size: 24px;
+      color: #74b9ff;
+      margin-bottom: 0.5rem;
+    }
+    .forecast-card span {
+      display: block;
+      font-size: 14px;
+      color: #2d3436;
+    }
+    .current-weather-card {
+      color: #3396e2;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      font-size: 2rem;
+    }
+    .current-weather-card i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
     .text-muted {
       margin-top: 1rem;
       text-align: center;
       font-size: 14px;
+      color: #b2bec3;
+    }
+    .info-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #0984e3;
     }
   </style>
 </head>
 <body>
   <div class="card">
+    <button class="info-button" onclick="showInfo()">?</button>
     <div class="card-body">
       <h3 id="day">Načítám...</h3>
       <p class="weather-date" id="date">Načítám...</p>
       <p class="weather-location">San Andreas, 37°50'N 47°49'W</p>
-      <p class="forecast" id="forecast-past">Test</p>
-      <h4 class="display-3" id="temperature">Načítám...</h4>
-      <p class="forecast" id="forecast-future">Načítám...</p>
+      <div class="forecast-section">
+        <div class="forecast-grid" id="past-forecast"></div>
+        <div class="current-weather-card" id="current-weather"></div>
+        <div class="forecast-grid" id="future-forecast"></div>
+      </div>
     </div>
   </div>
-  <p class="text-muted">
-    (( Veškeré <a href="https://open-meteo.com/en/docs" target="blank">údaje</a> berte s rezervou, stránka není napojena na herní skript počasí a nesouvisí s náhodnými skriptovými událostmi - déšť, winterpack atd. ))<br>Přináší <a href="https://artic.leosight.cz/zayatec.ic" target="_top">ZAYA-TEC</a>
+  <p style="background-color: #f1f2f6; padding: 10px 20px; font-size: 22px; font-weight: bold; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-top: 1rem;">
+    <a href="https://artic.leosight.cz/zayatec.ic" target="_top" style="text-decoration: none; color: #2d3436;">ZAYA-TEC</a>
   </p>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -89,68 +144,63 @@
         .then(data => {
           if (data && data.current_weather && data.hourly) {
             const temperature = data.current_weather.temperature;
-            const windSpeed = data.current_weather.windspeed;
 
-            document.getElementById('temperature').innerHTML = `${temperature}&deg;C `;
-            let iconClass = '';
-            if (temperature > 17) {
-              iconClass = 'bi-sun';
-            } else {
-              iconClass = 'bi-cloud';
-            }
-            document.getElementById('temperature').innerHTML += `<i class="bi ${iconClass}"></i>`;
+            let iconClass = temperature > 16 ? 'bi-sun' : 'bi-cloud';
+            const currentWeatherCard = document.getElementById('current-weather');
+            currentWeatherCard.innerHTML = ` 
+              <i class="bi ${iconClass}"></i><br>
+              <strong>${temperature}&deg;C</strong> <!-- No rounding -->
+            `;
 
-            let forecastTextFuture = '';
-            for (let i = 1; i <= 6; i++) {
-              const forecastTemperature = data.hourly.temperature_2m[i];
-              const hour = (now.getHours() + i) % 24;
+            const pastForecast = document.getElementById('past-forecast');
+            const futureForecast = document.getElementById('future-forecast');
 
-              let forecastIconClass = '';
-              if (forecastTemperature > 17) {
-                forecastIconClass = 'bi-sun';
-              } else if (forecastTemperature <= 17 && forecastTemperature > 10) {
-                forecastIconClass = 'bi-cloud';
-              } else {
-                forecastIconClass = 'bi bi-clouds-fill';
-              }
-
-              forecastTextFuture += `${hour}:00 - ${forecastTemperature}&deg;C <i class="bi ${forecastIconClass}"></i><br>`;
-            }
-
-            document.getElementById('forecast-future').innerHTML = forecastTextFuture;
-
-            let forecastTextPast = '';
             for (let i = 6; i >= 1; i--) {
-              const pastHourIndex = now.getHours() - i;
-              const pastTemperature = data.hourly.temperature_2m[(pastHourIndex + 24) % 24];
-              const hour = (pastHourIndex + 24) % 24;
+              const pastHourIndex = (now.getHours() - i + 24) % 24;
+              const pastTemperature = data.hourly.temperature_2m[pastHourIndex];
+              const hour = pastHourIndex;
 
-              let forecastIconClass = '';
-              if (pastTemperature > 17) {
-                forecastIconClass = 'bi-sun';
-              } else if (pastTemperature <= 17 && pastTemperature > 10) {
-                forecastIconClass = 'bi-cloud';
-              } else {
-                forecastIconClass = 'bi bi-clouds-fill';
-              }
+              let forecastIconClass = pastTemperature > 16 ? 'bi-sun' : pastTemperature > 10 ? 'bi-cloud' : 'bi-clouds-fill';
 
-              forecastTextPast += `${hour}:00 - ${pastTemperature}&deg;C <i class="bi ${forecastIconClass}"></i><br>`;
+              const card = document.createElement('div');
+              card.className = 'forecast-card';
+              card.innerHTML = `
+                <i class="bi ${forecastIconClass}"></i>
+                <span>${hour}:00</span>
+                <span>${pastTemperature}&deg;C</span> <!-- No rounding -->
+              `;
+              pastForecast.appendChild(card);
             }
 
-            document.getElementById('forecast-past').innerHTML = forecastTextPast;
+            for (let i = 1; i <= 6; i++) {
+              const futureHourIndex = (now.getHours() + i) % 24;
+              const forecastTemperature = data.hourly.temperature_2m[futureHourIndex];
+              const hour = futureHourIndex;
+
+              let forecastIconClass = forecastTemperature > 16 ? 'bi-sun' : forecastTemperature > 10 ? 'bi-cloud' : 'bi-clouds-fill';
+
+              const card = document.createElement('div');
+              card.className = 'forecast-card';
+              card.innerHTML = `
+                <i class="bi ${forecastIconClass}"></i>
+                <span>${hour}:00</span>
+                <span>${forecastTemperature}&deg;C</span> <!-- No rounding -->
+              `;
+              futureForecast.appendChild(card);
+            }
           } else {
-            document.getElementById('temperature').textContent = 'Data nenalezena';
-            document.getElementById('forecast-future').textContent = 'Data nenalezena';
-            document.getElementById('forecast-past').textContent = 'Data nenalezena';
+            document.getElementById('current-weather').textContent = 'Data nenalezena';
           }
         })
         .catch(error => {
           console.error('Chyba při načítání dat:', error);
-          document.getElementById('temperature').textContent = 'Chyba načítání';
-          document.getElementById('forecast-future').textContent = 'Chyba načítání';
-          document.getElementById('forecast-past').textContent = 'Chyba načítání';
+          document.getElementById('current-weather').textContent = 'Chyba načítání';
         });
     });
+
+    function showInfo() {
+      alert("(( Veškeré údaje berte s rezervou, stránka není napojena na herní skript počasí a nesouvisí s náhodnými skriptovými událostmi - déšť, winterpack atd. ))");
+    }
   </script>
 </body>
 </html>
