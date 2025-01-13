@@ -96,6 +96,46 @@
       cursor: pointer;
       color: #0984e3;
     }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .display-3 {
+        font-size: 2.5rem;
+      }
+      .forecast-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 576px) {
+      .card-body {
+        padding: 1.5rem;
+      }
+      .display-3 {
+        font-size: 2rem;
+      }
+      .forecast-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .forecast-card i {
+        font-size: 20px;
+      }
+      .forecast-card span {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .forecast-card {
+        padding: 0.75rem;
+      }
+      .forecast-card i {
+        font-size: 18px;
+      }
+      .forecast-card span {
+        font-size: 10px;
+      }
+    }
   </style>
 </head>
 <body>
