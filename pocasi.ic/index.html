@@ -17,6 +17,7 @@
       flex-direction: column;
       height: 100vh;
       margin: 0;
+      transition: background 0.5s ease;
     }
     .card {
       width: 100%;
@@ -26,6 +27,7 @@
       background: linear-gradient(to bottom, #ffffff, #f1f2f6);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       position: relative;
+      transition: background 0.5s ease, color 0.5s ease;
     }
     .card-body {
       text-align: center;
@@ -58,6 +60,7 @@
       padding: 1rem;
       text-align: center;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background 0.5s ease, color 0.5s ease;
     }
     .forecast-card i {
       font-size: 24px;
@@ -75,6 +78,7 @@
       padding: 1rem;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
       font-size: 2rem;
+      transition: background 0.5s ease, color 0.5s ease;
     }
     .current-weather-card i {
       font-size: 2rem;
@@ -95,6 +99,18 @@
       border: none;
       cursor: pointer;
       color: #0984e3;
+      z-index: 999;
+    }
+    .mode-toggle-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #0984e3;
+      z-index: 999;
     }
 
     @media (max-width: 768px) {
@@ -135,11 +151,44 @@
         font-size: 10px;
       }
     }
+
+    /* Dark mode */
+    body.night-mode {
+      background: linear-gradient(to bottom, #2d3436, #000000);
+      color: #dfe6e9;
+    }
+    body.night-mode .card {
+      background: linear-gradient(to bottom, #2f3640, #353b48);
+      color: #dfe6e9;
+    }
+    body.night-mode .forecast-card {
+      background: #2f3640;
+      border: 1px solid #636e72;
+      color: #dfe6e9;
+    }
+    body.night-mode .forecast-card span {
+      color: #dfe6e9;
+    }
+    body.night-mode .current-weather-card {
+      background-color: #2f3640;
+      color: #74b9ff;
+    }
+    body.night-mode .weather-date,
+    body.night-mode .weather-location {
+      color: #b2bec3;
+    }
+    body.night-mode .info-button,
+    body.night-mode .mode-toggle-button {
+      color: #74b9ff;
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <button class="info-button" onclick="showInfo()">?</button>
+    <button class="mode-toggle-button" onclick="toggleNightMode()">
+      <i id="mode-icon" class="bi"></i>
+    </button>
     <div class="card-body">
       <h3 id="day">Načítám...</h3>
       <p class="weather-date" id="date">Načítám...</p>
@@ -157,6 +206,32 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    function toggleNightMode() {
+      const body = document.body;
+      body.classList.toggle('night-mode');
+      const isNight = body.classList.contains('night-mode');
+      localStorage.setItem('nightMode', isNight ? 'true' : 'false');
+      updateModeIcon(isNight);
+    }
+
+    function updateModeIcon(isNight) {
+      const icon = document.getElementById('mode-icon');
+      icon.className = 'bi ' + (isNight ? 'bi-sun-fill' : 'bi-moon-stars-fill');
+    }
+
+    (function activateNightMode() {
+      const saved = localStorage.getItem('nightMode');
+      const now = new Date();
+      const hour = now.getHours();
+      const shouldBeNight = saved === 'true' || (saved === null && (hour >= 21 || hour < 6));
+
+      if (shouldBeNight) {
+        document.body.classList.add('night-mode');
+      }
+
+      updateModeIcon(document.body.classList.contains('night-mode'));
+    })();
+
     document.addEventListener('DOMContentLoaded', function() {
       const now = new Date();
       const days = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
@@ -183,12 +258,11 @@
         .then(data => {
           if (data && data.current_weather && data.hourly) {
             const temperature = data.current_weather.temperature;
-
             let iconClass = temperature > 16 ? 'bi-sun' : 'bi-cloud';
             const currentWeatherCard = document.getElementById('current-weather');
-            currentWeatherCard.innerHTML = ` 
+            currentWeatherCard.innerHTML = `
               <i class="bi ${iconClass}"></i><br>
-              <strong>${temperature}&deg;C</strong> <!-- No rounding -->
+              <strong>${temperature}&deg;C</strong>
             `;
 
             const pastForecast = document.getElementById('past-forecast');
@@ -206,7 +280,7 @@
               card.innerHTML = `
                 <i class="bi ${forecastIconClass}"></i>
                 <span>${hour}:00</span>
-                <span>${pastTemperature}&deg;C</span> <!-- No rounding -->
+                <span>${pastTemperature}&deg;C</span>
               `;
               pastForecast.appendChild(card);
             }
@@ -223,7 +297,7 @@
               card.innerHTML = `
                 <i class="bi ${forecastIconClass}"></i>
                 <span>${hour}:00</span>
-                <span>${forecastTemperature}&deg;C</span> <!-- No rounding -->
+                <span>${forecastTemperature}&deg;C</span>
               `;
               futureForecast.appendChild(card);
             }
