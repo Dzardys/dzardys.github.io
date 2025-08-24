@@ -14,7 +14,7 @@ async function loadProperties() {
 
       div.innerHTML = `
         <h5 class="mb-2">${property.name}</h5>
-        <p class="text-info mb-3">${property.date}</p>
+        <p class="text-primary mb-3">${property.date}</p>
 
         <div class="row">
           <div class="col-md-8">
