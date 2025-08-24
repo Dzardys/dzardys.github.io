@@ -8,13 +8,13 @@ async function loadVehicles() {
     vehicles.forEach(vehicle => {
       const div = document.createElement('div');
       div.className = "lead border p-3 rounded shadow mb-3";
-      div.style.backgroundColor = "#ffffe6";
+      div.style.backgroundColor = "#e6f7ff";
       div.style.fontSize = "1rem";
       div.style.lineHeight = "1.2";
 
       div.innerHTML = `
         <h5 class="mb-2">${vehicle.date} ${vehicle.brand} ${vehicle.model}</h5>
-        <p class="text-info mb-3" style="font-size: 0.9rem;">${vehicle.date}</p>
+        <p class="text-info mb-3">${vehicle.date}</p>
 
         <div class="row">
           <div class="col-md-8">
