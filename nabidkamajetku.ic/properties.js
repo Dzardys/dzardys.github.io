@@ -7,7 +7,7 @@ async function loadProperties() {
     const container = document.getElementById('properties-container');
     properties.forEach(property => {
       const div = document.createElement('div');
-      div.className = "lead border p-3 rounded shadow mb-3";
+      div.className = "lead border p-3 rounded mb-3";
       div.style.backgroundColor = "#e6f7ff";
       div.style.fontSize = "1rem";
       div.style.lineHeight = "1.2";

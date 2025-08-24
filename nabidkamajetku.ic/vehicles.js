@@ -7,8 +7,8 @@ async function loadVehicles() {
     const container = document.getElementById('vehicles-container');
     vehicles.forEach(vehicle => {
       const div = document.createElement('div');
-      div.className = "lead border p-3 rounded shadow mb-3";
-      div.style.backgroundColor = "#e6f7ff";
+      div.className = "lead border p-3 rounded mb-3";
+      div.style.backgroundColor = "#ffffe6";
       div.style.fontSize = "1rem";
       div.style.lineHeight = "1.2";
 
