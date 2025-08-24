@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "thumb": "https://via.placeholder.com/150",
+    "gallery": "https://example.com/gallery/house1",
+    "name": "Rodinný dům",
+    "location": "Praha 5",
+    "type": "Dům",
+    "desc": "Prostorný rodinný dům se zahradou",
+    "price": "8 500 000 Kč",
+    "date": "01.05.2020"
+  },
+  {
+    "id": 2,
+    "thumb": "https://via.placeholder.com/150",
+    "gallery": "https://example.com/gallery/apartment1",
+    "name": "Byt 3+1",
+    "location": "Brno",
+    "type": "Byt",
+    "desc": "Moderní byt v centru města",
+    "price": "5 200 000 Kč",
+    "date": "12.08.2021"
+  }
+]

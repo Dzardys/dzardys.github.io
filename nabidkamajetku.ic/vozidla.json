@@ -1,0 +1,26 @@
+[
+  {
+    "vin": "1A2345",
+    "thumb": "https://via.placeholder.com/150",
+    "gallery": "https://example.com/gallery/1",
+    "brand": "Škoda",
+    "model": "RS1488",
+    "odo": "123000 km",
+    "desc": "Sportovní vůz",
+    "logbook": "Dostupný",
+    "price": "500000 Kč",
+    "date": "10.4.1998"
+  },
+  {
+    "vin": "2B6789",
+    "thumb": "https://via.placeholder.com/150",
+    "gallery": "https://example.com/gallery/2",
+    "brand": "BMW",
+    "model": "X5",
+    "odo": "90000 km",
+    "desc": "Luxusní SUV",
+    "logbook": "Dostupný",
+    "price": "800000 Kč",
+    "date": "15.6.2001"
+  }
+]
