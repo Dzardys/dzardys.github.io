@@ -57,7 +57,7 @@
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    fetch("vehicles.json")
+    fetch("https://dzardys.eu/toastweb/vehicles.json")
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("vehicles-container");
@@ -74,7 +74,7 @@
                   <p><strong>Nájezd:</strong> ${item.odo.toLocaleString("cs-CZ")} km</p>
                   <p><strong>Úpravy:</strong> ${item.logbook}</p>
                   <p><strong>Popis:</strong> ${item.desc}</p>
-                  <p><strong>Cena:</strong> ${item.price.toLocaleString("cs-CZ")} Kč</p>
+                  <p><strong>Minimální cena:</strong> ${item.price.toLocaleString("cs-CZ")} Kč</p>
                   <p><strong>Způsobilé k provozu:</strong> ${item.operational}</p>
                 </div>
               </div>
