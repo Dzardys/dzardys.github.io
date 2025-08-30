@@ -34,7 +34,7 @@ async function loadVehicles() {
             <a href="${vehicle.gallery || '#'}" target="_blank">
               <img src="${vehicle.thumb || 'https://via.placeholder.com/150'}" 
                    class="img-fluid rounded border" 
-                   alt="Obrázek" style="max-height: 100px;">
+                   alt="Obrázek" style="max-height: 512px;">
             </a>
           </div>
         </div>
