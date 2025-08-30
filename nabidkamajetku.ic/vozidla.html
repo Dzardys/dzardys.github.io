@@ -30,7 +30,7 @@
   </nav>
 
   <div class="container my-4 p-4 shadow rounded" style="background-color: white;">
-    <div id="vehicles-container" class="row g-4"></div>
+    <div id="vehicles-container"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
@@ -41,20 +41,19 @@
         const container = document.getElementById("vehicles-container");
         data.forEach(item => {
           const card = document.createElement("div");
-          card.className = "col-md-4";
+          card.className = "card card-vehicle mb-4 shadow-sm";
           card.innerHTML = `
-            <div class="card card-vehicle h-100 shadow-sm">
+            <a href="${item.gallery}" target="_blank">
               <img src="${item.thumb}" class="card-img-top" alt="${item.brand} ${item.model}">
-              <div class="card-body">
-                <h5 class="card-title">${item.year.toLocaleString()} ${item.brand} ${item.model}</h5>
-                <p class="card-text">${item.desc}</p>
-                <p><strong>VIN:</strong> ${item.vin}</p>
-                <p><strong>Nájezd:</strong> ${item.odo.toLocaleString()} km</p>
-                <p><strong>Úpravy:</strong> ${item.logbook}</p>
-                <p><strong>Cena:</strong> ${item.price.toLocaleString()} Kč</p>
-                <p><strong>Způsobilé k provozu:</strong> ${item.operational}</p>
-                <a href="${item.gallery}" target="_blank" class="btn btn-primary w-100">Galerie</a>
-              </div>
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">${item.year} ${item.brand} ${item.model}</h5>
+              <p class="card-text">${item.desc}</p>
+              <p><strong>VIN:</strong> ${item.vin}</p>
+              <p><strong>Nájezd:</strong> ${item.odo.toLocaleString("cs-CZ")} km</p>
+              <p><strong>Záznamy v TP:</strong> ${item.logbook}</p>
+              <p><strong>Cena:</strong> ${item.price.toLocaleString("cs-CZ")} Kč</p>
+              <p><strong>Způsobilé k provozu:</strong> ${item.operational}</p>
             </div>
           `;
           container.appendChild(card);
