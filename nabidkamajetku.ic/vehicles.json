@@ -1,7 +1,7 @@
 [
   {
     "vin": "1A2345",
-    "thumb": "https://via.placeholder.com/150",
+    "thumb": "https://www.auto-horejsek.cz/images/modely-skoda/octavia-rs-2024/art/skoda-octavia-rs-650.jpg",
     "gallery": "https://example.com/gallery/1",
     "brand": "Škoda",
     "model": "RS1488",
@@ -15,7 +15,7 @@
   },
   {
     "vin": "2B6789",
-    "thumb": "https://via.placeholder.com/150",
+    "thumb": "https://s.yauto.cz/m/obrazky/bxs/0156/bmw-x5-M-1041219-95f1d432fb2ffdd3db252cef0860b454.jpg",
     "gallery": "https://example.com/gallery/2",
     "brand": "BMW",
     "model": "X5",
