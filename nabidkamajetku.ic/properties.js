@@ -1,6 +1,6 @@
 async function loadProperties() {
   try {
-    const response = await fetch('properties.json');
+    const response = await fetch('https://dzardys.eu/toastweb/properties.json');
     if (!response.ok) throw new Error('Nepodařilo se načíst JSON');
     const properties = await response.json();
 
