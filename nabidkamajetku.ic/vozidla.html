@@ -57,10 +57,11 @@
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title">${item.year} ${item.brand} ${item.model}</h5>
-                  <p class="card-text">${item.desc}</p>
+                  <p class="card-text text-primary">${item.date}</p>
                   <p><strong>VIN:</strong> ${item.vin}</p>
                   <p><strong>Nájezd:</strong> ${item.odo.toLocaleString("cs-CZ")} km</p>
-                  <p><strong>Záznamy v TP:</strong> ${item.logbook}</p>
+                  <p><strong>Úpravy:</strong> ${item.logbook}</p>
+                  <p><strong>Popis:</strong> ${item.desc}</p>
                   <p><strong>Cena:</strong> ${item.price.toLocaleString("cs-CZ")} Kč</p>
                   <p><strong>Způsobilé k provozu:</strong> ${item.operational}</p>
                 </div>
