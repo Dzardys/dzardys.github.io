@@ -31,7 +31,7 @@ async function loadProperties() {
             <a href="${property.gallery || '#'}" target="_blank">
               <img src="${property.thumb || 'https://via.placeholder.com/150'}" 
                    class="img-fluid rounded border" 
-                   alt="Obrázek nemovitosti" style="max-height: 100px;">
+                   alt="Obrázek nemovitosti" style="max-height: 512px;">
             </a>
           </div>
         </div>
