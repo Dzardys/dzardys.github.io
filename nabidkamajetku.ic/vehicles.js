@@ -1,6 +1,6 @@
 async function loadVehicles() {
   try {
-    const response = await fetch('vehicles.json');
+    const response = await fetch('https://dzardys.eu/toastweb/vehicles.json');
     if (!response.ok) throw new Error('Nepodařilo se načíst JSON');
     const vehicles = await response.json();
 
