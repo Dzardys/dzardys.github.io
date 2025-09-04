@@ -7,11 +7,28 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(135deg, #7d6bb5 0%, #a8475f 100%) no-repeat center center/100% 100%;;
+      background: linear-gradient(135deg, #7d6bb5 0%, #a8475f 100%) no-repeat center center/100% 100%;
       min-height: 100vh;
     }
     .card-property {
       background-color: #e6f0ff;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .card-property.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .property-img {
+      width: 256px;
+      height: 256px;
+      object-fit: cover;
+      border-radius: 5px;
+      transition: transform 0.4s ease-in-out;
+    }
+    .property-img:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -33,7 +50,56 @@
     <div id="properties-container"></div>
   </div>
 
+  <div class="container text-center p-4 shadow rounded lead" style="background-color: white;">
+    <div style="background-color: #e6f0ff;" class="alert border rounded">
+      <p>Nabídky na vozidla a nemovitosti se podávají prostřednictvím elektronické pošty na adresu <strong>exekuce@gov.ic</strong>. V předmětu zprávy je nutné uvést předmět zájmu a v textu zprávy nabídnutou částku, která musí převyšovat minimální cenu stanovenou na oficiálních webových stránkách.</p>
+      <p>Zájemce, jehož nabídka byla vyhodnocena jako nejvyšší, bude v následujících dnech (odhadem do 7 pracovních dnů) následně kontaktován a vyzván k úhradě stanovené částky. Platba se provádí buď v hotovosti při osobním převzetí, nebo v souladu s dohodou uzavřenou s exekutorem či pověřeným zaměstnancem soudu, který příslušnou transakci realizuje.</p>
+      <p>Platnost každé nabídky je univerzálně stanovena na <strong><span class="fs-4">7 kalendářních dnů</span></strong>, není-li stanoveno v popisu položky jinak.</p>
+    </div>
+  </div>
+
+   <footer class="container text-center my-4 p-4 shadow rounded" style="background-color: white;">
+    <p class="mb-0">
+      Zpracovatelem a provozovatelem webové stránky je společnost <strong>ZAYA-TEC (639)</strong> ve spolupráci s Vládou San Andreas.<br>Zodpovědná osoba - Ing. Steve Zayas.
+    </p>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="properties.js"></script>
+  <script>
+    fetch("https://dzardys.eu/toastweb/properties.json")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("properties-container");
+        data.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "card card-property mb-4 shadow-sm";
+          card.innerHTML = `
+            <div class="row g-0 align-items-center">
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">${item.name}</h5>
+                  <p class="card-text text-primary">${item.date}</p>
+                  <p><strong>Číslo popisné:</strong> ${item.descriptive}</p>
+                  <p><strong>Typ:</strong> ${item.type}</p>
+                  <p><strong>Lokalita:</strong> ${item.location}</p>
+                  <p><strong>Nachází se na pozemku vedeném v katastru:</strong> ${item.plot}</p>
+                  <p><strong>Popis:</strong> ${item.desc}</p>
+                  <p><strong>Minimální cena:</strong> ${item.price.toLocaleString("cs-CZ")} Kč</p>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <a href="${item.gallery}" target="_blank">
+                  <img src="${item.thumb}" alt="${item.name}" class="property-img">
+                </a>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+          setTimeout(() => {
+            card.classList.add("show");
+          }, 150 * index);
+        });
+      });
+  </script>
 </body>
 </html>
