@@ -30,6 +30,15 @@
     .property-img:hover {
       transform: scale(1.05);
     }
+    .pagination .page-item .page-link {
+      color: #0d6efd;
+    }
+    .pagination .page-item.active .page-link {
+      background-color: #e6f0ff;
+      border-color: #b0c9ff;    
+      color: #000;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -125,7 +134,7 @@
       for (let i = 1; i <= pageCount; i++) {
         const li = document.createElement("li");
         li.className = `page-item ${i === currentPage ? "active" : ""}`;
-        li.innerHTML = `<a class="page-link btn btn-info" href="#">${i}</a>`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
         li.addEventListener("click", (e) => {
           e.preventDefault();
           currentPage = i;
@@ -141,6 +150,7 @@
         properties = data;
         loadingText.style.display = "none";
         renderPage(currentPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       })
       .catch(() => {
         loadingText.textContent = "Nepodařilo se načíst položky.";
