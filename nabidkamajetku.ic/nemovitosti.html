@@ -139,6 +139,7 @@
           e.preventDefault();
           currentPage = i;
           renderPage(currentPage);
+          document.querySelector('#nav').scrollIntoView();
         });
         pagination.appendChild(li);
       }
@@ -150,7 +151,6 @@
         properties = data;
         loadingText.style.display = "none";
         renderPage(currentPage);
-        document.querySelector('#nav').scrollIntoView();
       })
       .catch(() => {
         loadingText.textContent = "Nepodařilo se načíst položky.";
