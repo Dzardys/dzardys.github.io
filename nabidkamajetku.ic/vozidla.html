@@ -145,7 +145,7 @@
       }
     }
 
-    fetch("https://dzardys.eu/toastweb/vehicles.json")
+    fetch("https://dzardys.eu/toastweb/vehicles.json", { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         vehicles = data;

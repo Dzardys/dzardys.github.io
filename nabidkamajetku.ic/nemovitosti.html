@@ -145,7 +145,7 @@
       }
     }
 
-    fetch("https://dzardys.eu/toastweb/properties.json")
+    fetch("https://dzardys.eu/toastweb/properties.json", { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         properties = data;
