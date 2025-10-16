@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="cs">
+  <head>
+    <title>Mapa chráněných území</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <style type="text/css">
+      html,
+      body,
+      #map-canvas {
+        height: 100%;
+        margin: 0
+      }
+
+      #map-canvas {
+        background: url('https://artic.leosight.cz/design/mapa/tiles/water.png') !important;
+      }
+
+      #message {
+        display: block;
+        font-family: "Verdana", sans-serif;
+        background: #eee;
+        color: #000;
+        padding: 1rem 2rem;
+        font-size: 17px;
+        position: absolute;
+        left: 1rem;
+        bottom: 2.5rem;
+        border-radius: 3px;
+        box-shadow: 1px 1px 3px #000;
+        max-width: 600px;
+        line-height: 1.5;
+      }
+
+      #message:empty {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+    <div id="message"></div>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyCo-09fHxV3NRRGfoXsdVPRgvJ-yDLTsb8"></script>
+    <script src="https://artic.leosight.cz/design/js/jquery.min.js"></script>
+    <script src="https://artic.leosight.cz/design/mapa/js/SanMap.min.js"></script>
+    <script>
+      var mapType = new SanMapType(0, 3, function(zoom, x, y) {
+        return x == -1 && y == -1 ? "https://artic.leosight.cz/design/mapa/tiles/map.outer.png" : "https://artic.leosight.cz/design/mapa/tiles/map." + zoom + "." + x + "." + y + ".png";
+      });
+      var map = SanMap.createMap(document.getElementById('map-canvas'), {
+        'Mapa nových území': mapType
+      }, -1, null, false, 'Mapa nových území');
+      map.setOptions({
+        scrollwheel: true
+      });
+
+          var coordsstatdt = [{lat: 27.171753, lng: -59.742173}, {lat: 25.879365, lng: -59.747172}, {lat: 25.876956, lng: -57.356104}, {lat: 27.172462, lng: -57.357550},];
+          var areastatdt = new google.maps.Polygon({
+            paths: coordsstatdt,
+            strokeColor: '#ff0000',
+            strokeOpacity: 0.7,
+            strokeWeight: 2,
+            fillColor: '#ffffff',
+            fillOpacity: 0.4
+          });
+          areastatdt.setMap(map);
+
+          google.maps.event.addListener(areastatdt, 'click', function(event) {
+            $('#message').fadeOut().fadeIn().html('<strong>Náměstí Downtown</strong>');
+          })
+
+          var coordstom = [{lat: 54.130920, lng: -9.565382}, {lat: 54.113306, lng: -9.293482}, {lat: 54.300234, lng: -9.061701}, {lat: 54.770035, lng: -8.840063}, {lat: 55.007897, lng: -8.607651}, {lat: 55.342218, lng: -8.159488}, {lat: 55.487714, lng: -8.059449}, {lat: 55.620337, lng: -8.077197}, {lat: 55.750719, lng: -7.886069}, {lat: 55.751799, lng: -7.829254}, {lat: 55.853536, lng: -7.803083}, {lat: 56.126938, lng: -7.427861}, {lat: 56.350510, lng: -7.193432}, {lat: 56.406797, lng: -7.175866}, {lat: 56.714257, lng: -7.380961}, {lat: 56.860298, lng: -7.301002}, {lat: 57.133228, lng: -7.459409}, {lat: 57.287791, lng: -7.693846}, {lat: 57.380548, lng: -7.975327}, {lat: 57.130115, lng: -8.389646}, {lat: 56.993661, lng: -8.702340}, {lat: 57.011788, lng: -9.325856}, {lat: 56.880355, lng: -9.534521}, {lat: 56.961965, lng: -9.685755}, {lat: 57.016919, lng: -9.687888}, {lat: 56.967169, lng: -9.769992}, {lat: 56.916409, lng: -9.951037}, {lat: 57.027814, lng: -10.132618}, {lat: 56.955791, lng: -10.392857}, {lat: 56.782603, lng: -10.592732}, {lat: 56.678778, lng: -10.748893}, {lat: 56.425056, lng: -10.886936}, {lat: 56.109196, lng: -10.947861}, {lat: 55.504966, lng: -10.840050}, {lat: 54.850946, lng: -10.899152}, {lat: 54.477228, lng: -10.712093}, {lat: 54.251360, lng: -10.408404}, {lat: 54.287761, lng: -10.123753}, {lat: 54.125292, lng: -9.647519},];
+          var areatom = new google.maps.Polygon({
+            paths: coordstom,
+            strokeColor: '#ff0000',
+            strokeOpacity: 0.7,
+            strokeWeight: 2,
+            fillColor: '#ffffff',
+            fillOpacity: 0.4
+          });
+          areatom.setMap(map);
+
+          google.maps.event.addListener(areatom, 'click', function(event) {
+            $('#message').fadeOut().fadeIn().html('<strong>Regular Tom</strong>');
+          });
+
+          var coordsgarcia = [{lat: 9.307584, lng: -67.859443}, {lat: 9.310600, lng: -68.537937}, {lat: 9.262142, lng: -69.105491}, {lat: 9.176299, lng: -69.607295}, {lat: 8.973633, lng: -70.074551}, {lat: 8.710584, lng: -70.513616}, {lat: 8.337175, lng: -70.915591}, {lat: 7.708303, lng: -71.527712}, {lat: 8.301023, lng: -72.150352}, {lat: 6.139211, lng: -72.180146}, {lat: 5.068753, lng: -72.301150}, {lat: 4.495239, lng: -72.333098}, {lat: 3.275214, lng: -72.339653}, {lat: -1.803124, lng: -72.339038}, {lat: -1.809980, lng: -71.460205}, {lat: 0.602017, lng: -71.460505}, {lat: 1.054002, lng: -71.365627}, {lat: 1.443282, lng: -71.093840}, {lat: 1.698510, lng: -70.721265}, {lat: 1.789932, lng: -70.255649}, {lat: 1.803695, lng: -68.557383}, {lat: 3.565044, lng: -68.445037}, {lat: 6.552666, lng: -68.436746}, {lat: 6.550261, lng: -67.871938},];
+          var areagarcia = new google.maps.Polygon({
+            paths: coordsgarcia,
+            strokeColor: '#ff0000',
+            strokeOpacity: 0.7,
+            strokeWeight: 2,
+            fillColor: '#ffffff',
+            fillOpacity: 0.4
+          });
+          areagarcia.setMap(map);
+
+          google.maps.event.addListener(areagarcia, 'click', function(event) {
+            $('#message').fadeOut().fadeIn().html('<strong>Park Garcia</strong>');
+          });
+
+          var coordsfc = [{lat: 36.930363, lng: 5.319463}, {lat: 36.683459, lng: 5.496047}, {lat: 36.296986, lng: 4.961857}, {lat: 36.515457, lng: 4.770597},];
+          var areafc = new google.maps.Polygon({
+            paths: coordsfc,
+            strokeColor: '#ff0000',
+            strokeOpacity: 0.7,
+            strokeWeight: 2,
+            fillColor: '#ffffff',
+            fillOpacity: 0.4
+          });
+          areafc.setMap(map);
+
+          google.maps.event.addListener(areafc, 'click', function(event) {
+            $('#message').fadeOut().fadeIn().html('<strong>Nápis Fort Carson</strong>');
+          });
+
+          var coordstoe = [{lat: 41.046632, lng: 72.670232}, {lat: 41.047588, lng: 62.327344}, {lat: 35.938085, lng: 62.322158}, {lat: 35.945186, lng: 72.672012},];
+          var areatoe = new google.maps.Polygon({
+            paths: coordstoe,
+            strokeColor: '#ff0000',
+            strokeOpacity: 0.7,
+            strokeWeight: 2,
+            fillColor: '#ffffff',
+            fillOpacity: 0.4
+          });
+          areatoe.setMap(map);
+
+          google.maps.event.addListener(areatoe, 'click', function(event) {
+            $('#message').fadeOut().fadeIn().html('<strong>The Camel\'s Toe</strong>');
+          });
+
+          var coordslagoon = [{lat: -0.720602, lng: 61.490061}, {lat: -0.749361, lng: 61.330997}, {lat: -0.518249, lng: 60.943531}, {lat: -0.180226, lng: 60.822015}, {lat: -0.246412, lng: 58.508174}, {lat: -0.773495, lng: 58.378982}, {lat: -0.920900, lng: 58.169868}, {lat: -0.991041, lng: 57.915157}, {lat: -1.312225, lng: 57.329568}, {lat: -1.257568, lng: 56.832107}, {lat: -1.867119, lng: 56.510775}, {lat: -2.605327, lng: 56.247103}, {lat: -3.275999, lng: 56.961292}, {lat: -3.725413, lng: 57.020365}, {lat: -4.142764, lng: 56.978862}, {lat: -4.845985, lng: 56.760505}, {lat: -5.200065, lng: 56.594575}, {lat: -6.407196, lng: 56.829357}, {lat: -7.497822, lng: 56.706753}, {lat: -7.946436, lng: 56.981993}, {lat: -9.055919, lng: 58.168096}, {lat: -9.015493, lng: 58.859088}, {lat: -7.771473, lng: 61.470234}, {lat: -7.368982, lng: 62.022502}, {lat: -7.224350, lng: 62.227163}, {lat: -7.232612, lng: 64.401072}, {lat: -7.468857, lng: 66.815522}, {lat: -7.761776, lng: 68.066682}, {lat: -7.555292, lng: 68.292957}, {lat: -7.091610, lng: 68.339553}, {lat: -6.198615, lng: 68.100447}, {lat: -5.806406, lng: 67.769861}, {lat: -5.518437, lng: 67.721975}, {lat: -5.288856, lng: 67.851064}, {lat: -4.977127, lng: 67.771707}, {lat: -4.518526, lng: 66.986697}, {lat: -4.373248, lng: 66.786870}, {lat: -4.298724, lng: 66.387451}, {lat: -4.137190, lng: 66.080859}, {lat: -3.872518, lng: 65.845422}, {lat: -3.098564, lng: 65.300017}, {lat: -2.665418, lng: 64.989785}, {lat: -2.256714, lng: 64.897236}, {lat: -1.816844, lng: 64.953867}, {lat: -0.695341, lng: 64.137708}, {lat: -0.441797, lng: 63.792026}, {lat: 0.140457, lng: 63.627085}, {lat: 0.530661, lng: 63.752263}, {lat: 0.864335, lng: 63.730547}, {lat: 0.968246, lng: 63.635991}, {lat: 0.979572, lng: 62.473477}, {lat: 0.822189, lng: 62.440085}, {lat: 0.410481, lng: 62.223750}, {lat: 0.305386, lng: 62.148516}, {lat: -0.596302, lng: 61.729109}, {lat: -0.682919, lng: 61.654482},];
+          var arealagoon = new google.maps.Polygon({
+            paths: coordslagoon,
+            strokeColor: '#ff0000',
+            strokeOpacity: 0.7,
+            strokeWeight: 2,
+            fillColor: '#ffffff',
+            fillOpacity: 0.4
+          });
+          arealagoon.setMap(map);
+
+          google.maps.event.addListener(arealagoon, 'click', function(event) {
+            $('#message').fadeOut().fadeIn().html('<strong>Fisher\'s Lagoon</strong>');
+          });
+    </script>
+
+  </body>
+</html>
