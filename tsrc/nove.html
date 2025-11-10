@@ -146,6 +146,21 @@
           google.maps.event.addListener(arealagoon, 'click', function(event) {
             $('#message').fadeOut().fadeIn().html('<strong>Fisher\'s Lagoon</strong>');
           });
+
+          var coordscalt = [{lat: 34.295812, lng: -59.307012}, {lat: 34.294779, lng: -61.334301}, {lat: 33.936453, lng: -61.332367}, {lat: 33.673301, lng: -61.384460}, {lat: 33.673015, lng: -61.966282}, {lat: 32.949888, lng: -61.963198}, {lat: 32.945592, lng: -61.866621}, {lat: 32.862935, lng: -61.728003}, {lat: 32.693892, lng: -61.721858}, {lat: 32.690380, lng: -61.206544}, {lat: 32.690973, lng: -59.305811},];
+          var areacalt = new google.maps.Polygon({
+            paths: coordscalt,
+            strokeColor: '#ff0000',
+            strokeOpacity: 0.7,
+            strokeWeight: 2,
+            fillColor: '#ffffff',
+            fillOpacity: 0.4
+          });
+          areacalt.setMap(map);
+
+          google.maps.event.addListener(areacalt, 'click', function(event) {
+            $('#message').fadeOut().fadeIn().html('<strong>Katedrála Calton Heights</strong>');
+          });
     </script>
 
   </body>
