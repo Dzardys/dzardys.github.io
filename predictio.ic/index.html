@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictio - Profesionální analýzy dostihových závodů</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e5e5;
+            z-index: 1000;
+            padding: 20px 0;
+        }
+        
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #000;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 120px 40px 80px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            color: #000;
+        }
+        
+        .hero p {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #000;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+        
+        /* About Section */
+        .about {
+            background: #f8f8f8;
+            padding: 120px 40px;
+        }
+        
+        .about .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        
+        .about h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            letter-spacing: -1px;
+            color: #000;
+        }
+        
+        .about p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+        
+        .feature-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 40px;
+            border-left: 4px solid #000;
+        }
+        
+        .feature-box strong {
+            color: #000;
+            display: block;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        /* Packages Section */
+        .packages-section {
+            padding: 120px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+        
+        .section-header p {
+            font-size: 20px;
+            color: #666;
+        }
+        
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        
+        .package {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 16px;
+            padding: 48px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .package:hover {
+            border-color: #000;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .package.featured {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+        
+        .package.featured h3,
+        .package.featured .price,
+        .package.featured .features li {
+            color: #fff;
+        }
+        
+        .package.featured .badge {
+            position: absolute;
+            top: -12px;
+            right: 32px;
+            background: #fff;
+            color: #000;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .package h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #000;
+        }
+        
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 24px 0;
+            color: #000;
+        }
+        
+        .price span {
+            font-size: 18px;
+            color: #666;
+            font-weight: 400;
+        }
+        
+        .package.featured .price span {
+            color: #999;
+        }
+        
+        .features {
+            list-style: none;
+            margin: 32px 0;
+        }
+        
+        .features li {
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .package.featured .features li {
+            border-bottom-color: #333;
+        }
+        
+        .features li:last-child {
+            border-bottom: none;
+        }
+            
+        .payment {
+            background: #f8f8f8;
+            padding: 120px 40px;
+        }
+        
+        .payment .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .payment h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+        
+        .bank-details {
+            background: #fff;
+            padding: 48px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            border: 1px solid #e5e5e5;
+        }
+        
+        .detail-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 20px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #000;
+        }
+        
+        .detail-value {
+            color: #666;
+        }
+        
+        .instructions {
+            background: #fff;
+            padding: 48px;
+            border-radius: 16px;
+            border: 1px solid #e5e5e5;
+        }
+        
+        .instructions h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+        
+        .instructions ol {
+            margin-left: 24px;
+        }
+        
+        .instructions li {
+            margin: 20px 0;
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 80px 40px 40px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-brand h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-brand p {
+            color: #999;
+            margin-bottom: 24px;
+        }
+        
+        .footer-links h4 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            color: #999;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin: 12px 0;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #999;
+        }
+        
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 56px;
+            }
+            
+            .packages {
+                grid-template-columns: 1fr;
+            }
+            
+            .about .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">PREDICTIO</div>
+            <ul class="nav-links">
+                <li><a href="#about">O nás</a></li>
+                <li><a href="#packages">Balíčky</a></li>
+                <li><a href="#payment">Objednávka</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Profesionální analýzy dostihových závodů</h1>
+            <p>Pokročilé matematické modely a datová analýza pro maximalizaci vašich šancí na úspěch</p>
+        </div>
+    </section>
+    
+    <section id="about" class="about">
+        <div class="container">
+            <div>
+                <h2>Datová věda aplikovaná na dostihový sport</h2>
+                <p>Využíváme pokročilé analytické nástroje společnosti Predictio k identifikaci nejpravděpodobnějších vítězů a klíčových faktorů ovlivňujících výsledky závodů.</p>
+                <p>Naše analýzy jsou založeny na komplexních matematických výpočtech a machine learning algoritmech, které zpracovávají stovky datových bodů z historických výsledků a výkonnostních metrik.</p>
+            </div>
+            <div>
+                <div class="feature-box">
+                    <strong>⚠️ Důležité upozornění</strong>
+                    <p style="color: #666; font-size: 16px; line-height: 1.8;">
+                        Výsledek není nikdy stoprocentní - hazard zůstává hazardem. Naše analýzy však poskytují významnou informační výhodu založenou na datech a šetří váš čas profesionálním přístupem k predikci.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="packages" class="packages-section">
+        <div class="section-header">
+            <h2>Vyberte si balíček</h2>
+            <p>Flexibilní možnosti přizpůsobené vašim potřebám</p>
+        </div>
+        
+        <div class="packages">
+            <div class="package">
+                <h3>Základní</h3>
+                <div class="price">50 000 Kč<span>/závod</span></div>
+                <ul class="features">
+                    <li>Analýza konkrétního závodu</li>
+                    <li>Základní statistiky a predikce</li>
+                    <li>E-mailová podpora</li>
+                    <li>Dodání několik hodin před závodem</li>
+                </ul>
+            </div>
+            
+            <div class="package featured">
+                <span class="badge">NEJVÝHODNĚJŠÍ</span>
+                <h3>Premium</h3>
+                <div class="price">600 000 Kč<span>/měsíc</span></div>
+                <ul class="features">
+                    <li>Analýza všech závodů po dobu 30 dnů</li>
+                    <li>Prioritní e-mailová podpora</li>
+                    <li>Tipy na kombinované sázky</li>
+                    <li>Dodání několik hodin před závodem</li>
+                </ul>
+            </div>
+            
+            <div class="package">
+                <h3>Pokročilý</h3>
+                <div class="price">100 000 Kč<span>/den</span></div>
+                <ul class="features">
+                    <li>Analýza všech závodů daného dne</li>
+                    <li>Pokročilé statistiky</li>
+                    <li>E-mailová podpora</li>
+                    <li>Tipy na kombinované sázky</li>
+                    <li>Dodání několik hodin před závodem</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section id="payment" class="payment">
+        <div class="container">
+            <h2>Platební informace</h2>
+            
+            <div class="bank-details">
+                <div class="detail-row">
+                    <div class="detail-label">Účet příjemce</div>
+                    <div class="detail-value">Enrico Malvera (Predictio)</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Poznámka k platbě</div>
+                    <div class="detail-value">Váš e-mail + zvolený balíček (případně číslo závodu/datum)</div>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>Postup objednávky</h3>
+                <ol>
+                    <li>Vyberte si požadovaný balíček analýz</li>
+                    <li>Proveďte bankovní převod na uvedený účet</li>
+                    <li>Do poznámky k platbě uveďte váš e-mail a specifikaci balíčku</li>
+                    <li>Po zpracování platby obdržíte potvrzovací e-mail</li>
+                    <li>Analýzy zasíláme několik hodin před začátkem závodu</li>
+                    <li>V případě zpoždění dodání máte nárok na adekvátní kompenzaci</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>PREDICTIO</h3>
+                <p>Profesionální analýzy dostihových závodů založené na pokročilé datové vědě a machine learning.</p>
+                <p style="margin-top: 24px;">📧 enrico.malvera@post.ic</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigace</h4>
+                <ul>
+                    <li><a href="#about">O nás</a></li>
+                    <li><a href="#packages">Balíčky</a></li>
+                    <li><a href="#payment">Objednávka</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Predictio. Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+</body>
+</html>
