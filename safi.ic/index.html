@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>San Andreas Flight Info</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary: #1e40af;
+        --primary-light: #3b82f6;
+        --primary-dark: #1e3a8a;
+        --accent: #0ea5e9;
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --text: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0
+      }
+
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #3b82f6 100%);
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-xl);
+      }
+
+      .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100"xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid"width="100"height="100"patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100"fill="none"stroke="rgba(255,255,255,0.05)"stroke-width="1"/></pattern></defs><rect width="100"height="100"fill="url(%23grid)"/></svg>');
+        opacity: 0.5;
+        }
+
+        .header-content {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 32px 32px;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          position: relative;
+          z-index: 1;
+        }
+
+        .logo {
+          width: 72px;
+          height: 72px;
+          background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 36px;
+          box-shadow: var(--shadow-2xl);
+          border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .brand {
+          color: #ffffff;
+        }
+
+        .brand h1 {
+          font-size: 32px;
+          font-weight: 900;
+          letter-spacing: -1px;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          margin-bottom: 4px;
+        }
+
+        .brand p {
+          font-size: 14px;
+          opacity: 0.9;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+        }
+
+        .container {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 48px 32px;
+        }
+
+        .search-card {
+          background: var(--card);
+          border-radius: 24px;
+          padding: 48px;
+          box-shadow: var(--shadow-2xl);
+          border: 1px solid var(--border);
+          margin-bottom: 40px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .search-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+        }
+
+        .search-title {
+          font-size: 28px;
+          font-weight: 800;
+          margin-bottom: 36px;
+          color: var(--text);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .search-title::before {
+          content: '🔍';
+          font-size: 32px;
+        }
+
+        .search-form {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 24px;
+          align-items: end;
+        }
+
+        .form-field {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+        }
+
+        .form-field label {
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--text-muted);
+          margin-bottom: 10px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .form-field input,
+        .form-field select {
+          padding: 16px 18px;
+          border: 2px solid var(--border);
+          border-radius: 14px;
+          font-size: 16px;
+          font-family: inherit;
+          background: var(--card);
+          color: var(--text);
+          transition: all 0.2s ease;
+          font-weight: 500;
+          box-shadow: var(--shadow-sm);
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+          outline: none;
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .form-field input:hover,
+        .form-field select:hover {
+          border-color: var(--primary-light);
+        }
+
+        .btn-search {
+          padding: 16px 40px;
+          background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+          color: #ffffff;
+          border: none;
+          border-radius: 14px;
+          font-size: 17px;
+          font-weight: 800;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 6px 12px -2px rgb(30 64 175 / 0.4);
+          height: 56px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .btn-search:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 16px -2px rgb(30 64 175 / 0.5);
+        }
+
+        .btn-search:active {
+          transform: translateY(0);
+          box-shadow: 0 6px 12px -2px rgb(30 64 175 / 0.4);
+        }
+
+        .results-card {
+          background: var(--card);
+          border-radius: 24px;
+          padding: 48px;
+          box-shadow: var(--shadow-2xl);
+          border: 1px solid var(--border);
+        }
+
+        .results-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 36px;
+          padding-bottom: 24px;
+          border-bottom: 2px solid var(--border);
+        }
+
+        .results-title {
+          font-size: 28px;
+          font-weight: 800;
+          color: var(--text);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .results-title::before {
+          content: '📋';
+          font-size: 32px;
+        }
+
+        .badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 20px;
+          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+          color: var(--primary);
+          border-radius: 999px;
+          font-size: 15px;
+          font-weight: 700;
+          box-shadow: var(--shadow-md);
+          border: 2px solid rgba(30, 64, 175, 0.1);
+        }
+
+        .table-wrapper {
+          overflow-x: auto;
+          border-radius: 16px;
+          border: 2px solid var(--border);
+          box-shadow: var(--shadow-lg);
+          user-select: none;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          background: var(--card);
+        }
+
+        thead {
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+          border-bottom: 3px solid var(--primary-light);
+        }
+
+        th {
+          padding: 18px 24px;
+          text-align: left;
+          font-size: 12px;
+          font-weight: 800;
+          color: var(--text);
+          text-transform: uppercase;
+          letter-spacing: 1.2px;
+        }
+
+        td {
+          padding: 20px 24px;
+          border-bottom: 1px solid var(--border);
+          font-size: 15px;
+          font-weight: 500;
+        }
+
+        tbody tr {
+          transition: background 0.15s ease;
+        }
+
+        tbody tr:hover {
+          background: #f8fafc;
+        }
+
+        tbody tr:last-child td {
+          border-bottom: none;
+        }
+
+        .flight-number {
+          font-weight: 800;
+          color: var(--primary);
+          font-size: 17px;
+          font-family: 'Consolas', 'Monaco', monospace;
+          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+          padding: 6px 12px;
+          border-radius: 8px;
+          display: inline-block;
+          box-shadow: var(--shadow-sm);
+        }
+
+        .route {
+          font-weight: 700;
+          color: var(--text);
+          font-size: 16px;
+        }
+
+        .route-arrow {
+          color: var(--accent);
+          margin: 0 8px;
+          font-weight: 900;
+          font-size: 18px;
+        }
+
+        .time {
+          font-weight: 700;
+          font-family: 'Consolas', 'Monaco', monospace;
+          color: var(--text);
+          font-size: 16px;
+        }
+
+        footer {
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+          border-top: 2px solid var(--border);
+          padding: 56px 32px;
+          margin-top: 80px;
+          box-shadow: 0 -10px 30px -10px rgb(0 0 0 / 0.1);
+        }
+
+        .footer-content {
+          max-width: 1280px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .footer-brand {
+          font-size: 24px;
+          font-weight: 900;
+          color: var(--text);
+          margin-bottom: 12px;
+        }
+
+        .footer-brand a {
+          background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-decoration: none;
+          transition: filter 0.2s ease;
+        }
+
+        .footer-brand a:hover {
+          filter: brightness(1.2);
+        }
+
+        .footer-text {
+          color: var(--text-muted);
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        @media(max-width: 768px) {
+          .header-content {
+            padding: 24px 20px;
+          }
+
+          .logo {
+            width: 56px;
+            height: 56px;
+            font-size: 28px;
+          }
+
+          .brand h1 {
+            font-size: 22px;
+          }
+
+          .brand p {
+            font-size: 12px;
+          }
+
+          .search-card {
+            padding: 28px;
+          }
+
+          .search-title {
+            font-size: 22px;
+          }
+
+          .results-card {
+            padding: 28px;
+          }
+
+          .results-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+          }
+
+          .results-title {
+            font-size: 22px;
+          }
+
+          th, td {
+            padding: 14px 12px;
+            font-size: 13px;
+          }
+
+          .flight-number {
+            font-size: 14px;
+            padding: 4px 10px;
+          }
+        }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">✈️</div>
+        <div class="brand">
+          <h1>San Andreas Flight Info</h1>
+          <p>Váš průvodce lety v San Andreas</p>
+        </div>
+      </div>
+    </header>
+    <main class="container">
+      <div class="search-card">
+        <h2 class="search-title">Vyhledat lety</h2>
+        <form class="search-form" onsubmit="event.preventDefault();generate();">
+          <div class="form-field"><label for="date">📅 Datum letu</label><input id="date" type="date" required /></div>
+          <div class="form-field"><label for="filter">🌍 Region</label><select id="filter">
+              <option value="all">Všechny regiony</option>
+              <option value="na">Severní Amerika</option>
+              <option value="sa">Jižní Amerika</option>
+              <option value="eu">Evropa</option>
+              <option value="is">Ostrovní destinace</option>
+            </select></div>
+          <div class="form-field"><button type="submit" class="btn-search">Zobrazit lety</button></div>
+        </form>
+      </div>
+      <div class="results-card">
+        <div class="results-header">
+          <h2 class="results-title">Letový řád</h2>
+          <div id="summary"></div>
+        </div>
+        <div class="table-wrapper">
+          <table id="flights-table" style="user-select: none;">
+            <thead>
+              <tr>
+                <th>Číslo letu</th>
+                <th>Trasa</th>
+                <th>Odlet</th>
+                <th>Přílet</th>
+                <th>Vzdálenost</th>
+                <th>Doba letu</th>
+                <th>Cena</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="footer-content">
+        <div class="footer-brand"><a href="https://artic.leosight.cz/zayatec.ic/" target="_top">ZAYA-TEC</a></div>
+        <p class="footer-text">Stránka je pouze informativního charakteru a údaje o jednotlivých letech nejsou závazné. Nejedná se o služby nabízené zpracovatelem webové stránky.</p>
+      </div>
+    </footer>
+    <script>
+      const AIRPORTS = {
+        LSA: {
+          name: 'Los Santos',
+          lat: 34.0522,
+          lon: -118.2437
+        },
+        SFA: {
+          name: 'San Fierro',
+          lat: 37.7749,
+          lon: -122.4194
+        },
+        LVA: {
+          name: 'Las Venturas',
+          lat: 36.1699,
+          lon: -115.1398
+        }
+      };
+      const FLIGHTS = [{
+        from: 'LSA',
+        to: "St. John's",
+        dep: '08:12',
+        dur: '2h 27m',
+        aircraft: 'ATR72',
+        dist: 1150,
+        category: 'na'
+      }, {
+        from: 'LSA',
+        to: 'Boston',
+        dep: '11:07',
+        dur: '2h 33m',
+        aircraft: 'A320',
+        dist: 2030,
+        category: 'na'
+      }, {
+        from: 'LSA',
+        to: 'New York',
+        dep: '14:19',
+        dur: '2h 49m',
+        aircraft: 'A321LR',
+        dist: 2250,
+        category: 'na'
+      }, {
+        from: 'SFA',
+        to: 'Lisabon',
+        dep: '09:03',
+        dur: '4h 05m',
+        aircraft: 'A321LR',
+        dist: 3350,
+        category: 'eu'
+      }, {
+        from: 'SFA',
+        to: 'Madrid',
+        dep: '13:17',
+        dur: '4h 28m',
+        aircraft: 'A321LR',
+        dist: 3777,
+        category: 'eu'
+      }, {
+        from: 'SFA',
+        to: 'Londýn',
+        dep: '17:08',
+        dur: '5h 03m',
+        aircraft: 'A321LR',
+        dist: 3980,
+        category: 'eu'
+      }, {
+        from: 'SFA',
+        to: 'Paríž',
+        dep: '21:11',
+        dur: '4h 52m',
+        aircraft: 'A321LR',
+        dist: 4155,
+        category: 'eu'
+      }, {
+        from: 'LVA',
+        to: 'Funchal',
+        dep: '10:04',
+        dur: '3h 18m',
+        aircraft: 'A320',
+        dist: 2850,
+        category: 'is'
+      }, {
+        from: 'LVA',
+        to: 'Tenerife',
+        dep: '14:22',
+        dur: '3h 37m',
+        aircraft: 'A320',
+        dist: 3076,
+        category: 'is'
+      }, {
+        from: 'LVA',
+        to: 'Praia',
+        dep: '18:09',
+        dur: '4h 03m',
+        aircraft: 'A320',
+        dist: 3491,
+        category: 'is'
+      }, {
+        from: 'LSA',
+        to: 'Santo Domingo',
+        dep: '12:25',
+        dur: '3h 37m',
+        aircraft: 'NVD6472',
+        dist: 3010,
+        category: 'na'
+      }, {
+        from: 'LSA',
+        to: 'Praha',
+        dep: '03:14',
+        dur: '5h 45m',
+        aircraft: 'A320',
+        dist: 5010,
+        category: 'eu'
+      }, {
+        from: 'LSA',
+        to: 'Vídeň',
+        dep: '06:48',
+        dur: '6h 30m',
+        aircraft: 'A320',
+        dist: 5450,
+        category: 'eu'
+      }, {
+        from: 'LSA',
+        to: 'São Paulo',
+        dep: '01:23',
+        dur: '8h 10m',
+        aircraft: 'A320',
+        dist: 6827,
+        category: 'sa'
+      }];
+
+      function seededRandom(seed) {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+      }
+
+      function pad(n) {
+        return n.toString().padStart(2, '0');
+      }
+      const dateInput = document.getElementById('date');
+      const today = new Date();
+      const minDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+      const maxDate = new Date(today.getFullYear(), today.getMonth() + 3, today.getDate());
+      dateInput.min = minDate.toISOString().slice(0, 10);
+      dateInput.max = maxDate.toISOString().slice(0, 10);
+      dateInput.value = today.toISOString().slice(0, 10);
+
+      function generate() {
+        const dateStr = dateInput.value;
+        if (!dateStr) return;
+        const selectedDate = new Date(dateStr);
+        if (selectedDate < minDate || selectedDate > maxDate) {
+          alert('Lety lze zobrazit jen v rozsahu 3 měsíců dopředu a zpět.');
+          return;
+        }
+        const filter = document.getElementById('filter').value;
+        const tbody = document.querySelector('#flights-table tbody');
+        tbody.innerHTML = '';
+        const baseDate = new Date(dateStr + 'T00:00:00');
+        const daySeed = baseDate.getDate() + baseDate.getMonth() * 31 + baseDate.getFullYear() * 12;
+        let filtered = FLIGHTS.filter(f => filter === 'all' || f.category === filter);
+        let allFlights = [];
+        filtered.forEach((f, i) => {
+          const [h, m] = f.dep.split(':').map(Number);
+          const dep = new Date(baseDate);
+          let depOffset = Math.floor((seededRandom(daySeed + i * 7) - 0.5) * 30);
+          dep.setHours(h, m + depOffset, 0, 0);
+          let durParts = f.dur.split('h');
+          let durH = Number(durParts[0]);
+          let durM = Number(durParts[1].replace('m', '').trim());
+          const durOffset = Math.floor((seededRandom(daySeed + i * 13) - 0.5) * 20);
+          durM += durOffset;
+          if (durM < 0) {
+            durH -= 1;
+            durM += 60;
+          }
+          if (durM >= 60) {
+            durH += 1;
+            durM -= 60;
+          }
+          const arr = new Date(dep.getTime() + (durH * 60 + durM) * 60000);
+          const airportOffset = f.from === 'LSA' ? 0 : f.from === 'SFA' ? 100 : f.from === 'LVA' ? 200 : 0;
+          const flightNo = `SA${String(airportOffset + i + 1).padStart(3, '0')}`;
+          const price = f.dist * 26;
+          const depDay = new Date(dep.getFullYear(), dep.getMonth(), dep.getDate());
+          if (depDay.getTime() !== baseDate.getTime()) return;
+          allFlights.push({
+            flightNo,
+            from: f.from,
+            to: f.to,
+            dep,
+            arr,
+            dist: f.dist,
+            durH,
+            durM,
+            price
+          });
+          const retDepOffset = Math.floor((seededRandom(daySeed + i * 17) - 0.5) * 30);
+          const retDurOffset = Math.floor((seededRandom(daySeed + i * 23) - 0.5) * 20);
+          const retDep = new Date(arr.getTime() + (150 + retDepOffset) * 60000);
+          let retDurH = durH;
+          let retDurM = durM + retDurOffset;
+          if (retDurM < 0) {
+            retDurH -= 1;
+            retDurM += 60;
+          }
+          if (retDurM >= 60) {
+            retDurH += 1;
+            retDurM -= 60;
+          }
+          const retArr = new Date(retDep.getTime() + (retDurH * 60 + retDurM) * 60000);
+          const retNo = `SA${String(airportOffset + i + 1 + 500).padStart(3, '0')}`;
+          const retDepDay = new Date(retDep.getFullYear(), retDep.getMonth(), retDep.getDate());
+          if (retDepDay.getTime() !== baseDate.getTime()) return;
+          allFlights.push({
+            flightNo: retNo,
+            from: f.to,
+            to: f.from,
+            dep: retDep,
+            arr: retArr,
+            dist: f.dist,
+            durH: retDurH,
+            durM: retDurM,
+            price
+          });
+        });
+        allFlights.sort((a, b) => a.dep - b.dep);
+        allFlights.forEach(f => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+        <td><span class="flight-number">${f.flightNo}</span></td><td>${AIRPORTS[f.from]?.name || f.from} → ${AIRPORTS[f.to]?.name || f.to}</td><td>~${pad(f.dep.getHours())}:${pad(f.dep.getMinutes())}</td><td>~${pad(f.arr.getHours())}:${pad(f.arr.getMinutes())}</td><td>~${f.dist.toLocaleString()} km</td><td>~${f.durH}h ${f.durM}m</td><td style="color: green;"><b>${f.price.toLocaleString()} Kč</b></td>
+      `;
+          tbody.appendChild(tr);
+        });
+      }
+      generate();
+    </script>
+  </body>
+</html>
