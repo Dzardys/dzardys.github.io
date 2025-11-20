@@ -510,6 +510,7 @@
           lon: -115.1398
         }
       };
+
       const FLIGHTS = [{
         from: 'LSA',
         to: "St. John's",
@@ -632,6 +633,7 @@
       function pad(n) {
         return n.toString().padStart(2, '0');
       }
+
       const dateInput = document.getElementById('date');
       const today = new Date();
       const minDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
@@ -648,23 +650,29 @@
           alert('Lety lze zobrazit jen v rozsahu 3 měsíců dopředu a zpět.');
           return;
         }
+
         const filter = document.getElementById('filter').value;
         const tbody = document.querySelector('#flights-table tbody');
         tbody.innerHTML = '';
+
         const baseDate = new Date(dateStr + 'T00:00:00');
         const daySeed = baseDate.getDate() + baseDate.getMonth() * 31 + baseDate.getFullYear() * 12;
+
         let filtered = FLIGHTS.filter(f => filter === 'all' || f.category === filter);
         let allFlights = [];
+
         filtered.forEach((f, i) => {
           const [h, m] = f.dep.split(':').map(Number);
           const dep = new Date(baseDate);
           let depOffset = Math.floor((seededRandom(daySeed + i * 7) - 0.5) * 30);
           dep.setHours(h, m + depOffset, 0, 0);
+
           let durParts = f.dur.split('h');
           let durH = Number(durParts[0]);
           let durM = Number(durParts[1].replace('m', '').trim());
           const durOffset = Math.floor((seededRandom(daySeed + i * 13) - 0.5) * 20);
           durM += durOffset;
+
           if (durM < 0) {
             durH -= 1;
             durM += 60;
@@ -673,12 +681,15 @@
             durH += 1;
             durM -= 60;
           }
+
           const arr = new Date(dep.getTime() + (durH * 60 + durM) * 60000);
           const airportOffset = f.from === 'LSA' ? 0 : f.from === 'SFA' ? 100 : f.from === 'LVA' ? 200 : 0;
           const flightNo = `SA${String(airportOffset + i + 1).padStart(3, '0')}`;
           const price = f.dist * 26;
+
           const depDay = new Date(dep.getFullYear(), dep.getMonth(), dep.getDate());
           if (depDay.getTime() !== baseDate.getTime()) return;
+
           allFlights.push({
             flightNo,
             from: f.from,
@@ -690,11 +701,14 @@
             durM,
             price
           });
+
           const retDepOffset = Math.floor((seededRandom(daySeed + i * 17) - 0.5) * 30);
           const retDurOffset = Math.floor((seededRandom(daySeed + i * 23) - 0.5) * 20);
           const retDep = new Date(arr.getTime() + (150 + retDepOffset) * 60000);
+
           let retDurH = durH;
           let retDurM = durM + retDurOffset;
+
           if (retDurM < 0) {
             retDurH -= 1;
             retDurM += 60;
@@ -703,10 +717,13 @@
             retDurH += 1;
             retDurM -= 60;
           }
+
           const retArr = new Date(retDep.getTime() + (retDurH * 60 + retDurM) * 60000);
           const retNo = `SA${String(airportOffset + i + 1 + 500).padStart(3, '0')}`;
+
           const retDepDay = new Date(retDep.getFullYear(), retDep.getMonth(), retDep.getDate());
           if (retDepDay.getTime() !== baseDate.getTime()) return;
+
           allFlights.push({
             flightNo: retNo,
             from: f.to,
@@ -719,16 +736,41 @@
             price
           });
         });
+
         allFlights.sort((a, b) => a.dep - b.dep);
-        allFlights.forEach(f => {
+        const now = new Date();
+        let nearestIndex = -1;
+        let nearestDiff = Infinity;
+
+        allFlights.forEach((f, index) => {
+          const diff = f.dep - now;
+          if (diff >= 0 && diff < nearestDiff) {
+            nearestDiff = diff;
+            nearestIndex = index;
+          }
+        });
+
+        allFlights.forEach((f, idx) => {
           const tr = document.createElement('tr');
+
+          if (idx === nearestIndex) {
+            tr.style.background = 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)';
+          }
+
           tr.innerHTML = `
-        <td><span class="flight-number">${f.flightNo}</span></td><td>${AIRPORTS[f.from]?.name || f.from} → ${AIRPORTS[f.to]?.name || f.to}</td><td>~${pad(f.dep.getHours())}:${pad(f.dep.getMinutes())}</td><td>~${pad(f.arr.getHours())}:${pad(f.arr.getMinutes())}</td><td>~${f.dist.toLocaleString()} km</td><td>~${f.durH}h ${f.durM}m</td><td style="color: green;"><b>${f.price.toLocaleString()} Kč</b></td>
+        <td><span class="flight-number">${f.flightNo}</span></td>
+        <td>${AIRPORTS[f.from]?.name || f.from} → ${AIRPORTS[f.to]?.name || f.to}</td>
+        <td>~${pad(f.dep.getHours())}:${pad(f.dep.getMinutes())}</td>
+        <td>~${pad(f.arr.getHours())}:${pad(f.arr.getMinutes())}</td>
+        <td>~${f.dist.toLocaleString()} km</td>
+        <td>~${f.durH}h ${f.durM}m</td>
+        <td style="color: green;"><b>${f.price.toLocaleString()} Kč</b></td>
       `;
           tbody.appendChild(tr);
         });
       }
+
       generate();
-    </script>
+</script>
   </body>
 </html>
