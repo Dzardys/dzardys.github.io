@@ -9,4 +9,12 @@ Pokud jste se proklikali až sem, pravděpodobně už chápete, jak se tato str�
 ## Kontribuce, úprava a smazání obsahu
 
 Pokud máte zájem o kontribuci, kontaktujte správce na adrese `steve.zayas@post.ic` a veškerou domluvu přenechte soukromou cestou. Provozovatel si však nárokuje možnost váš obsah nezveřejnit, editovat či smazat, a to bez povinnosti udání důvodu. Uvedení autorství je zaručeno.
-Stejnou e-mailovou adresu však užijte v případě, že žádáte o odstranění některého obsahu a máte nárok takovou žádost podat. 
+
+V případě, že ve svém článku uvádíte konkrétní údaje, dbejte na jejich pravdivost a ověřitelnost, vynasnažte se zároveň svůj obsah patřičně ozdrojovat. Příspěvky týkající se žijících osobností nebudou bez jejich doložitelného souhlasu uveřejněny. V případě zesnulých je nezbytné limitovat obsah tak, aby nedošlo k zásahu do jejich soukromí, a naopak jej cílit na informace, které zesnulé nemohou nikterak poškodit.
+
+Uvedenou e-mailovou adresu užijte i v případě, že žádáte o odstranění některého obsahu a máte nárok takovou žádost podat (obsah se konkrétně dotýká například vás nebo vaší společnosti a nadále nesouhlasíte s jeho umístěním).
+
+---
+
+**Autor:** Ing. Steve Zayas
+**Datum a čas poslední změny:** 25.11.2025 8:53
