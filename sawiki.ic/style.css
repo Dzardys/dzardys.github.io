@@ -6,8 +6,8 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-  background: #1a1d23;
-  color: #e5e7eb;
+  background: #181b20;
+  color: #e1e4e8;
   line-height: 1.65;
   display: flex;
   flex-direction: column;
@@ -15,13 +15,13 @@ body {
 }
 
 header {
-  background: rgba(22, 25, 31, 0.95);
+  background: rgba(25, 28, 34, 0.95);
   backdrop-filter: blur(12px);
   padding: 18px 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -31,7 +31,7 @@ header {
 header h1 {
   font-size: 23px;
   font-weight: 600;
-  color: #ffffff;
+  color: #f4f4f5;
   letter-spacing: -0.3px;
   display: flex;
   align-items: center;
@@ -42,7 +42,7 @@ header h1::before {
   content: '';
   width: 4px;
   height: 22px;
-  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  background: linear-gradient(180deg, #f2c879 0%, #d8a35c 100%);
   border-radius: 2px;
 }
 
@@ -52,20 +52,20 @@ header h1::before {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 7px;
   width: 340px;
-  background: rgba(255, 255, 255, 0.03);
-  color: #d4d7dc;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d1d4db;
   outline: none;
   transition: all 0.2s;
 }
 
 #search:focus {
-  border-color: rgba(245, 158, 11, 0.3);
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
+  border-color: rgba(242, 200, 121, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(242, 200, 121, 0.1);
 }
 
 #search::placeholder {
-  color: #6b7280;
+  color: #8c92a0;
 }
 
 main {
@@ -92,7 +92,7 @@ nav {
 nav h2 {
   font-size: 12px;
   font-weight: 600;
-  color: #9ca3af;
+  color: #a0a5b1;
   padding: 0 18px;
   margin-bottom: 12px;
   text-transform: uppercase;
@@ -107,7 +107,7 @@ nav li {
   padding: 10px 18px;
   margin: 2px 0;
   cursor: pointer;
-  color: #a8adb5;
+  color: #b0b6bf;
   font-size: 14.5px;
   transition: all 0.18s;
   font-weight: 450;
@@ -122,15 +122,15 @@ nav li::before {
   transform: translateY(-50%);
   width: 3px;
   height: 0;
-  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  background: linear-gradient(180deg, #f2c879 0%, #d8a35c 100%);
   border-radius: 0 2px 2px 0;
   transition: height 0.2s;
 }
 
 nav li:hover {
-  color: #f3f4f6;
+  color: #f0f0f0;
   padding-left: 26px;
-  background: rgba(245, 158, 11, 0.03);
+  background: rgba(242, 200, 121, 0.05);
 }
 
 nav li:hover::before {
@@ -140,7 +140,7 @@ nav li:hover::before {
 nav li.active {
   color: #ffffff;
   padding-left: 26px;
-  background: rgba(245, 158, 11, 0.06);
+  background: rgba(242, 200, 121, 0.08);
   font-weight: 550;
 }
 
@@ -159,7 +159,7 @@ article {
 
 article h1 {
   font-size: 36px;
-  color: #ffffff;
+  color: #f5f5f5;
   margin-bottom: 20px;
   font-weight: 650;
   letter-spacing: -0.7px;
@@ -175,13 +175,13 @@ article h1::after {
   bottom: 0;
   width: 90px;
   height: 3px;
-  background: linear-gradient(90deg, #f59e0b 0%, rgba(245, 158, 11, 0.3) 100%);
+  background: linear-gradient(90deg, #f2c879 0%, rgba(242, 200, 121, 0.4) 100%);
   border-radius: 2px;
 }
 
 article h2 {
   font-size: 30px;
-  color: #ffffff;
+  color: #f0f0f0;
   margin-top: 24px;
   margin-bottom: 16px;
   font-weight: 600;
@@ -190,7 +190,7 @@ article h2 {
 
 article h3 {
   font-size: 24px;
-  color: #f9fafb;
+  color: #f0f0f0;
   margin-top: 20px;
   margin-bottom: 12px;
   font-weight: 600;
@@ -198,7 +198,7 @@ article h3 {
 
 article h4 {
   font-size: 19px;
-  color: #e5e7eb;
+  color: #e1e4e8;
   margin-top: 26px;
   margin-bottom: 10px;
   font-weight: 600;
@@ -206,7 +206,7 @@ article h4 {
 
 article p {
   margin-bottom: 16px;
-  color: #c0c5cd;
+  color: #d2d6dc;
   font-size: 15.5px;
   line-height: 1.75;
 }
@@ -214,7 +214,7 @@ article p {
 article ul, article ol {
   margin-left: 26px;
   margin-bottom: 16px;
-  color: #c0c5cd;
+  color: #d2d6dc;
 }
 
 article li {
@@ -224,7 +224,7 @@ article li {
 }
 
 article a {
-  color: #fbbf24;
+  color: #f2c879;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.18s;
@@ -238,12 +238,12 @@ article a::after {
   bottom: -2px;
   width: 0;
   height: 1px;
-  background: #fbbf24;
+  background: #f2c879;
   transition: width 0.22s;
 }
 
 article a:hover {
-  color: #fcd34d;
+  color: #f6d290;
 }
 
 article a:hover::after {
@@ -251,13 +251,13 @@ article a:hover::after {
 }
 
 article code {
-  background: rgba(245, 158, 11, 0.08);
+  background: rgba(242, 200, 121, 0.08);
   padding: 3px 8px;
   border-radius: 5px;
   font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
   font-size: 13.5px;
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.15);
+  color: #f2c879;
+  border: 1px solid rgba(242, 200, 121, 0.15);
   font-weight: 500;
 }
 
@@ -281,12 +281,12 @@ article pre code {
 }
 
 article blockquote {
-  border-left: 3px solid rgba(245, 158, 11, 0.5);
+  border-left: 3px solid rgba(242, 200, 121, 0.5);
   padding-left: 18px;
   margin: 20px 0;
-  color: #9ca3af;
+  color: #a0a5b1;
   font-style: italic;
-  background: rgba(245, 158, 11, 0.02);
+  background: rgba(242, 200, 121, 0.02);
   padding: 16px 18px;
   border-radius: 0 7px 7px 0;
 }
@@ -310,14 +310,14 @@ article table td {
 }
 
 article table th {
-  background: rgba(245, 158, 11, 0.08);
+  background: rgba(242, 200, 121, 0.08);
   font-weight: 600;
-  color: #fbbf24;
-  border-bottom: 2px solid rgba(245, 158, 11, 0.2);
+  color: #f2c879;
+  border-bottom: 2px solid rgba(242, 200, 121, 0.2);
 }
 
 article table td {
-  color: #c0c5cd;
+  color: #d2d6dc;
 }
 
 article table tr:hover td {
@@ -335,7 +335,7 @@ article img {
 article hr {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(245, 158, 11, 0.25) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(242, 200, 121, 0.25) 50%, transparent 100%);
   margin: 32px 0;
 }
 
@@ -354,7 +354,7 @@ article:has(h2:first-child):has(p:last-child):not(:has(h3)):not(:has(ul)):not(:h
 }
 
 footer {
-  background: rgba(22, 25, 31, 0.95);
+  background: rgba(25, 28, 34, 0.95);
   backdrop-filter: blur(12px);
   padding: 24px 48px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -367,7 +367,7 @@ footer {
 .footer-logo {
   font-size: 20px;
   font-weight: 700;
-  color: #ffffff;
+  color: #f4f4f5;
   text-decoration: none;
   letter-spacing: 1.5px;
   position: relative;
@@ -383,7 +383,7 @@ footer {
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+  background: linear-gradient(90deg, #f2c879 0%, #d8a35c 100%);
   transition: width 0.3s ease;
 }
 
@@ -440,10 +440,10 @@ footer {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(242, 200, 121, 0.15);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(245, 158, 11, 0.25);
+  background: rgba(242, 200, 121, 0.25);
 }
