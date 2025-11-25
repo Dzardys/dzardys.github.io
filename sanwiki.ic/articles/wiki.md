@@ -1,4 +1,4 @@
-# San Andreas Wiki
+# SanWiki
 
 Pokud jste se proklikali až sem, pravděpodobně už chápete, jak se tato stránka ovládá. Důležité je ještě určit, k čemu stránka bude sloužit.
 
