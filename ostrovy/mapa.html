@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa ostrovů</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #8b2a6e 0%, #6a3a8a 40%, #3a4a8a 70%, #2a5a9a 100%);
+    user-select: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#viewport {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+    margin: 0;
+    background: #254544;
+}
+
+#viewport.dragging {
+    cursor: grabbing;
+}
+
+#world {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+}
+
+#map {
+    position: absolute;
+    width: 2048px;
+    height: 2048px;
+    background: url("map.jpg") no-repeat center / contain;
+    border-radius: 8px;
+}
+
+#overlay {
+    position: absolute;
+    width: 2048px;
+    height: 2048px;
+}
+
+.marker {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    background: url("island.png") no-repeat center / contain;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.marker[data-icon="oil"] {
+    background-image: url("oil.png");
+}
+
+.marker[data-icon="ship"] {
+    background-image: url("ship.png");
+}
+
+.marker:hover {
+    transform: translate(-50%, -50%) scale(1.15);
+    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.6));
+}
+
+.marker.active {
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.9));
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+#controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    z-index: 100;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    padding: 10px 18px;
+    background: rgba(100, 40, 100, 0.9);
+    border: 2px solid rgba(180, 130, 200, 0.4);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.control-btn:hover {
+    background: rgba(120, 50, 120, 0.95);
+    border-color: rgba(200, 150, 220, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(180, 130, 200, 0.3);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+}
+
+#infoPanel {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    width: 280px;
+    background: rgba(80, 40, 100, 0.95);
+    color: #fff;
+    padding: 0;
+    border-radius: 12px;
+    display: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(180, 130, 200, 0.4);
+    overflow: hidden;
+}
+
+#infoPanel.show {
+    display: block;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#infoPanel .header {
+    background: linear-gradient(135deg, #6a3a8a 0%, #4a2a6a 100%);
+    padding: 16px;
+    border-bottom: 2px solid rgba(180, 130, 200, 0.4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#infoPanel h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffd700;
+}
+
+#closeBtn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+#closeBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+#infoPanel .content {
+    padding: 16px;
+}
+
+#infoPanel .row {
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.5;
+}
+
+#infoPanel .row strong {
+    color: rgba(200, 150, 220, 0.9);
+    min-width: 100px;
+    font-weight: 600;
+}
+
+#infoPanel .row span {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#zoomIndicator {
+    position: absolute;
+    bottom: 20px;
+    right: 320px;
+    background: rgba(100, 40, 100, 0.9);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    border: 2px solid rgba(180, 130, 200, 0.4);
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    #viewport {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+    
+    #controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #infoPanel {
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+    }
+    
+    #zoomIndicator {
+        right: 20px;
+        bottom: auto;
+        top: 120px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="viewport">
+    <div id="world">
+        <div id="map"></div>
+        <div id="overlay"></div>
+    </div>
+</div>
+
+<div id="controls">
+    <button class="control-btn" id="resetBtn">Resetovat zobrazení</button>
+</div>
+
+<div id="infoPanel">
+    <div class="header">
+        <h3 id="infoName"></h3>
+        <button id="closeBtn">✕</button>
+    </div>
+    <div class="content">
+        <div class="row">
+            <strong>Souřadnice X:</strong>
+            <span id="infoX"></span>
+        </div>
+        <div class="row">
+            <strong>Souřadnice Y:</strong>
+            <span id="infoY"></span>
+        </div>
+        <div class="row">
+            <strong>Nemovitosti:</strong>
+            <span id="properties"></span>
+        </div>
+    </div>
+</div>
+
+<div id="zoomIndicator">Zoom: <span id="zoomValue">60%</span></div>
+
+<script>
+const MAP_SIZE_PX = 2048;
+const MAP_SIZE_UNITS = 6000;
+const HALF_UNITS = 3000;
+
+const viewport = document.getElementById("viewport");
+const world = document.getElementById("world");
+const overlay = document.getElementById("overlay");
+const infoPanel = document.getElementById("infoPanel");
+const infoName = document.getElementById("infoName");
+const infoX = document.getElementById("infoX");
+const infoY = document.getElementById("infoY");
+const properties = document.getElementById("properties");
+const resetBtn = document.getElementById("resetBtn");
+const closeBtn = document.getElementById("closeBtn");
+const zoomValue = document.getElementById("zoomValue");
+
+let isDragging = false;
+let lastX = 0;
+let lastY = 0;
+let offsetX = 0;
+let offsetY = 0;
+
+let scale = 1;
+const MIN_SCALE = 0.4;
+const MAX_SCALE = 2.0;
+
+let activeMarker = null;
+let markerElements = {};
+
+const islands = [
+    { id: 1, name: "Ostrov", x: -3446.388671875, y: 760.56481933594, properties: "4028, 4030, 4032, 4033, 4034" },
+    { id: 2, name: "Ostrůvek/jeskyně", x: -2690.9453125, y: 2915.451171875, properties: "3997, 3998" },
+    { id: 3, name: "Ostrov", x: 3769.9541015625, y: -1895.857421875, properties: "3261, 3283, 3851, 5052" },
+    { id: 4, name: "Ropná plošina", x: 4281.728515625, y: -2041.451171875, properties: "Žádné", icon: "oil" },
+    { id: 5, name: "Ostrov", x: 4854.92578125, y: 2478.7265625, properties: "3062, 3072, 3074" },
+    { id: 6, name: "Přistávací plošina", x: 4612.8950195312, y: -2173.8237304688, properties: "Žádné", icon: "ship" },
+    { id: 7, name: "Ostrov", x: -2271.255859375, y: 4696.3715820312, properties: "6162, 6163, 6164, 6165, 6166" },
+    { id: 8, name: "Ostrov", x: 5218.7861328125, y: 321.3876953125, properties: "1341" },
+    { id: 9, name: "Ostrov", x: -1302.3405761719, y: 5416.5200195312, properties: "6148" },
+    { id: 10, name: "Ostrov", x: -2120.2963867188, y: -4525.1337890625, properties: "2854, 2867, 2868, 2869" }
+];
+
+function updateTransform() {
+    world.style.transform =
+        `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(${scale})`;
+    zoomValue.textContent = Math.round(scale * 100) + "%";
+}
+
+viewport.addEventListener("mousedown", e => {
+    if (e.target === viewport || e.target.closest('#world')) {
+        isDragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        viewport.classList.add("dragging");
+    }
+});
+
+window.addEventListener("mouseup", () => {
+    isDragging = false;
+    viewport.classList.remove("dragging");
+});
+
+window.addEventListener("mousemove", e => {
+    if (!isDragging) return;
+
+    offsetX += e.clientX - lastX;
+    offsetY += e.clientY - lastY;
+
+    lastX = e.clientX;
+    lastY = e.clientY;
+
+    updateTransform();
+});
+
+viewport.addEventListener("wheel", e => {
+    e.preventDefault();
+
+    const prevScale = scale;
+    const zoomFactor = 1.1;
+
+    scale = e.deltaY < 0 ? scale * zoomFactor : scale / zoomFactor;
+    scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
+
+    const rect = viewport.getBoundingClientRect();
+    const cx = e.clientX - rect.left - rect.width / 2;
+    const cy = e.clientY - rect.top - rect.height / 2;
+
+    offsetX -= cx * (scale / prevScale - 1);
+    offsetY -= cy * (scale / prevScale - 1);
+
+    updateTransform();
+}, { passive: false });
+
+function mapToPixel(x, y) {
+    return {
+        px: (x + HALF_UNITS) / MAP_SIZE_UNITS * MAP_SIZE_PX,
+        py: MAP_SIZE_PX - ((y + HALF_UNITS) / MAP_SIZE_UNITS * MAP_SIZE_PX)
+    };
+}
+
+function drawIsland(data) {
+    const { px, py } = mapToPixel(data.x, data.y);
+
+    const el = document.createElement("div");
+    el.className = "marker";
+    el.style.left = px + "px";
+    el.style.top = py + "px";
+    el.dataset.id = data.id;
+    
+    if (data.icon) {
+        el.dataset.icon = data.icon;
+    }
+
+    el.addEventListener("click", e => {
+        e.stopPropagation();
+        showInfo(data);
+    });
+
+    overlay.appendChild(el);
+    markerElements[data.id] = el;
+}
+
+function showInfo(data) {
+    infoName.textContent = data.name;
+    infoX.textContent = data.x.toFixed(2);
+    infoY.textContent = data.y.toFixed(2);
+    properties.textContent = data.properties || "";
+    infoPanel.classList.add("show");
+    
+    if (activeMarker) {
+        activeMarker.classList.remove("active");
+    }
+    activeMarker = markerElements[data.id];
+    if (activeMarker) {
+        activeMarker.classList.add("active");
+    }
+}
+
+function hideInfo() {
+    infoPanel.classList.remove("show");
+    if (activeMarker) {
+        activeMarker.classList.remove("active");
+        activeMarker = null;
+    }
+}
+
+viewport.addEventListener("click", e => {
+    if (e.target === viewport || e.target.closest('#world') === world) {
+        hideInfo();
+    }
+});
+
+closeBtn.addEventListener("click", hideInfo);
+
+function centerOnIsland(island) {
+    const { px, py } = mapToPixel(island.x, island.y);
+    
+    const rect = viewport.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    offsetX = centerX - px * scale;
+    offsetY = centerY - py * scale;
+    
+    updateTransform();
+}
+
+resetBtn.addEventListener("click", () => {
+    scale = 0.6;
+    offsetX = -600;
+    offsetY = -600;
+    updateTransform();
+    hideInfo();
+});
+
+window.addEventListener("load", () => {
+    scale = 0.6;
+    offsetX = -600;
+    offsetY = -600;
+    updateTransform();
+});
+
+islands.forEach(drawIsland);
+
+document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+        hideInfo();
+    }
+    if (e.key === "r" || e.key === "R") {
+        resetBtn.click();
+    }
+});
+</script>
+
+</body>
+</html>
