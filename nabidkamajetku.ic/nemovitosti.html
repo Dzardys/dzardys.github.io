@@ -96,7 +96,7 @@
       const items = properties.slice(start, end);
 
       items.forEach((item, index) => {
-        if(item.visible){
+        if(item.visible == 1){
           const card = document.createElement("div");
           card.className = "card card-property mb-4 shadow-sm";
           card.innerHTML = `

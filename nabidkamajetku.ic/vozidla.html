@@ -96,7 +96,7 @@
       const items = vehicles.slice(start, end);
 
       items.forEach((item, index) => {
-      if(item.visible){
+      if(item.visible == 1){
         const card = document.createElement("div");
         card.className = "card card-vehicle mb-4 shadow-sm";
         card.innerHTML = `
