@@ -85,55 +85,56 @@
     const loadingText = document.getElementById("loading-text");
 
     let properties = [];
-    let visible = 0;
     let currentPage = 1;
     const itemsPerPage = 5;
 
     function renderPage(page) {
       container.innerHTML = "";
+
+      const visibleProperties = properties.filter(p => p.visible == 1);
+
       const start = (page - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      const items = properties.slice(start, end);
+      const items = visibleProperties.slice(start, end);
 
       items.forEach((item, index) => {
-        if(item.visible == 1){
-          const card = document.createElement("div");
-          card.className = "card card-property mb-4 shadow-sm";
-          card.innerHTML = `
-            <div class="row g-0 align-items-center">
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">${item.name}</h5>
-                  <p class="card-text text-primary">${item.date}</p>
-                  <p><strong>Číslo popisné:</strong> ${item.descriptive}</p>
-                  <p><strong>Typ:</strong> ${item.type}</p>
-                  <p><strong>Lokalita:</strong> ${item.location}</p>
-                  <p><strong>Nachází se na pozemku vedeném v katastru:</strong> ${item.plot}</p>
-                  <p><strong>Popis:</strong> ${item.desc}</p>
-                  <p><strong>Minimální cena:</strong> ${item.price.toLocaleString("cs-CZ")} Kč</p>
-                </div>
-              </div>
-              <div class="col-md-4 text-center">
-                <a href="${item.gallery}" target="_top">
-                  <img src="${item.thumb}" alt="${item.name}" class="property-img">
-                </a>
+        const card = document.createElement("div");
+        card.className = "card card-property mb-4 shadow-sm";
+        card.innerHTML = `
+          <div class="row g-0 align-items-center">
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">${item.name}</h5>
+                <p class="card-text text-primary">${item.date}</p>
+                <p><strong>Číslo popisné:</strong> ${item.descriptive}</p>
+                <p><strong>Typ:</strong> ${item.type}</p>
+                <p><strong>Lokalita:</strong> ${item.location}</p>
+                <p><strong>Nachází se na pozemku vedeném v katastru:</strong> ${item.plot}</p>
+                <p><strong>Popis:</strong> ${item.desc}</p>
+                <p><strong>Minimální cena:</strong> ${item.price.toLocaleString("cs-CZ")} Kč</p>
               </div>
             </div>
-          `;
-          container.appendChild(card);
-          setTimeout(() => {
-            card.classList.add("show");
-          }, 150 * index);
-          visible++;
-        }
+            <div class="col-md-4 text-center">
+              <a href="${item.gallery}" target="_top">
+                <img src="${item.thumb}" alt="${item.name}" class="property-img">
+              </a>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+
+        setTimeout(() => {
+          card.classList.add("show");
+        }, 150 * index);
       });
 
-      renderPagination();
+      renderPagination(visibleProperties.length);
     }
 
-    function renderPagination() {
+    function renderPagination(totalVisible) {
       pagination.innerHTML = "";
-      const pageCount = Math.ceil(visible / itemsPerPage);
+
+      const pageCount = Math.ceil(totalVisible / itemsPerPage);
 
       for (let i = 1; i <= pageCount; i++) {
         const li = document.createElement("li");

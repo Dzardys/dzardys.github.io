@@ -85,18 +85,19 @@
     const loadingText = document.getElementById("loading-text");
 
     let vehicles = [];
-    let visible = 0;
     let currentPage = 1;
     const itemsPerPage = 5;
 
     function renderPage(page) {
       container.innerHTML = "";
+
+      const visibleVehicles = vehicles.filter(v => v.visible == 1);
+
       const start = (page - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      const items = vehicles.slice(start, end);
+      const items = visibleVehicles.slice(start, end);
 
       items.forEach((item, index) => {
-      if(item.visible == 1){
         const card = document.createElement("div");
         card.className = "card card-vehicle mb-4 shadow-sm";
         card.innerHTML = `
@@ -121,19 +122,19 @@
           </div>
         `;
         container.appendChild(card);
+
         setTimeout(() => {
           card.classList.add("show");
         }, 150 * index);
-        visible++;
-      }
-    });
+      });
 
-      renderPagination();
+      renderPagination(visibleVehicles.length);
     }
 
-    function renderPagination() {
+    function renderPagination(totalVisible) {
       pagination.innerHTML = "";
-      const pageCount = Math.ceil(visible / itemsPerPage);
+
+      const pageCount = Math.ceil(totalVisible / itemsPerPage);
 
       for (let i = 1; i <= pageCount; i++) {
         const li = document.createElement("li");
