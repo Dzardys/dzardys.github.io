@@ -1,70 +1,160 @@
 <!doctype html>
 <html lang="cs">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ZAYA-TEC</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  </head>
-  <style>
-    body{
-        background-color: #141414;
-        color: white;
-    }
-  </style>
-  <body>
-    <div class="text-center">
-        <img class="mx-auto" src="zayatec.png" width="200">
-    </div>
-    <div class="container">
-      <h1>Kdo jsme?</h1>
-      <p class="lead">Jsme společnost zabývající se poskytováním služeb v oboru kybernetické bezpečnosti a informačních technologií. Naším cílem je usnadnit každodenní život všech občanů v závislosti na jejich potřebách.<br>Naše projekty se zaměřují na nedostatky současných služeb a technologií a tyto pomyslné díry v našich životech záplatují.</p>
-      <h1>Poskytování služeb</h1>
-      <p class="lead">Volba našich projektů je čistě svobodná a reflektuje aktuální absence v životech každého z nás. Naše projekty se dělí na projekty nekomerční a projekty komerční. Dělení závisí na charakteristice daného projektu a veškerý příjem financuje pouze čas věnovaný jeho budování nebo obsluze.<br><strong>Nejsme</strong> společnost zabývající se tvorbou webových stránek na zakázku. Přesto rádi vyslechneme přání každého klienta a pokusíme se prokázat stejnou službu každému dalšímu občanovi.</p>
-      <h1>Projekty</h1>
-      <div class="row mt-3 mb-3">
-        <div class="col-sm">
-          <div class="card" style="width: 18rem; background-color: #141414; border-color: white; color: white;">
-            <a href="https://artic.leosight.cz/nabidkamajetku.ic" target="_top"><img src="nabidkamajetku.png" class="card-img-top" alt="nabidkamajetku.ic"></a>
-            <div class="card-body">
-              <h5 class="card-title">NABÍDKA MAJETKU <strong>(WIP)</strong></h5>
-              <p class="card-text">Inzerce majetku (vozidla, nemovitosti) Vlády San Andreas k prodeji veřejnosti. Web vznikl a běží v úzké spolupráci s Vládou San Andreas.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="card" style="width: 18rem; background-color: #141414; border-color: white; color: white;">
-            <a href="https://artic.leosight.cz/pocasi.ic" target="_top"><img src="pocasi.jpg" class="card-img-top" alt="Pocasi.ic"></a>
-            <div class="card-body">
-              <h5 class="card-title">POČASÍ</h5>
-              <p class="card-text">Aktuální zobrazení teploty v naší lokalitě. Vzhledem k nedostatečnému technologickému vybavení našich meteorologů je nezbytné brát údaje s rezervou.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="card" style="width: 18rem; background-color: #141414; border-color: white; color: white;">
-            <a href="https://artic.leosight.cz/safi.ic" target="_top"><img src="safi.jpg" class="card-img-top" alt="SAFI.IC"></a>
-            <div class="card-body">
-              <h5 class="card-title">FLIGHT INFO</h5>
-              <p class="card-text">Projekt ve spolupráci s leteckými společnostmi za účelem informovat o letových trasách, časech a pravidelých mezistátních odletech a příletech.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="card" style="width: 18rem; background-color: #141414; border-color: white; color: white;">
-            <img src="zayatec.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">TBA</h5>
-              <p class="card-text">Několik dalších plánovaných projektů v raném stádiu. O každém projektu bude zavčasu informováni a budeme rádi, když u jejich vzniku budete stát s námi.</p>
-            </div>
-          </div>
-        </div>
-        <h1 class="mt-3">Podpora</h1>
-        <p class="lead">Nejste-li cílovým zákazníkem našich služeb, ale přesto si přejete podpořit chod naší společnosti a tvorbu dalších projektů, můžete nás podpořit zasláním libovolné částky na účet právnické osoby <strong>ZAYA-TEC</strong> (IČO 639), v případě vašeho přání vám pak vyjádříme vděk mimo jiné i uveřejněním vašeho daru. Přesto pomněte, že finance lze využít mnohem zodpovědnější cestou.</p>
-        <hr>
-        <p class="text-center">Vytvořeno v roce 2024 pro účel prezentace společnosti ZAYA-TEC uvedené v rejstříku pod IČ 639, zastoupené jednatelem Ing. Steve Zayas a spoluvlastníkem Mgr. Lena Zayas. Webová prezentace je v raném stádiu a její obsah i kompletní vzhled se mohou v průběhu změnit.</p>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZAYA-TEC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div class="screen">
+
+<div class="statusbar">
+  <div class="statusbar-left">
+    <span><span class="status-dot"></span>ZAYA-TEC 2.0</span>
+    <span class="sep">|</span>
+    <span>IČO&nbsp;639</span>
+    <span class="sep">|</span>
+    <span>CONNECTED</span>
+  </div>
+  <div class="statusbar-right">
+    <a href="#o-nas">O_NAS</a>
+    <a href="#projekty">PROJEKTY</a>
+    <a href="#podpora">PODPORA</a>
+  </div>
+</div>
+
+<main>
+
+<div class="hero">
+  <div class="terminal-window">
+    <div class="terminal-titlebar">
+      <span class="terminal-title">zaya-tec@stoongle:~$</span>
+      <div class="terminal-dots">
+        <span></span><span></span><span></span>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </body>
+    <div class="terminal-body">
+      <span class="t-line t-gap"><span class="t-prompt">[ SYS ] </span><span class="t-cmd">Initializing ZAYA-TEC presentation layer...</span></span>
+      <span class="t-line t-out">Loading modules: [cybersec] [infosec] [projects] [support]...</span>
+      <span class="t-line t-out t-gap">All modules loaded successfully. Status: ONLINE</span>
+
+      <div class="big-ascii">ZAYA<br>TEC</div>
+      <div class="tagline">Záplatujeme mezery v IT<span class="blink">_</span></div>
+
+      <span class="t-line"><span class="t-prompt">[ INFO ] </span><span class="t-cmd">whois zaya-tec</span></span>
+      <table class="t-table">
+        <tr><td>SINCE</td><td>2024</td></tr>
+        <tr><td>CEO</td><td>Ing. Steve Zayas</td></tr>
+        <tr><td>CFO</td><td>Mr. Lena Zayas</td></tr>
+        <tr><td>FOCUS</td><td> IT services</td></tr>
+        <tr><td>PROJECTS</td><td>3 active, 1 TBA</td></tr>
+        <tr><td>STATUS</td><td><span style="color:var(--green)">OPERATIONAL <span class="blink">■</span></span></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="o-nas">
+  <div class="sec-header">
+    <span class="sec-id">[01]</span>
+    <span class="sec-title">O_NAS.TXT</span>
+  </div>
+  <div class="about-body">
+    <div>
+      <p>Jsme společnost zabývající se poskytováním služeb v oboru <span>IT</span>. Naším cílem je usnadnit každodenní život všech občanů v závislosti na jejich potřebách.</p>
+      <p>Naše projekty se zaměřují na nedostatky současných služeb a technologií a tyto pomyslné <span>díry záplatují</span>.</p>
+    </div>
+    <div>
+      <p>Volba projektů je čistě svobodná a reflektuje aktuální absence v životech každého z nás.</p>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="projekty">
+  <div class="sec-header">
+    <span class="sec-id">[02]</span>
+    <span class="sec-title">PROJEKTY.DIR</span>
+  </div>
+  <div class="proj-list">
+    <a href="https://artic.leosight.cz/nabidkamajetku.ic" target="_top" class="proj-item">
+      <span class="proj-idx">01&nbsp;/</span>
+      <div class="proj-info">
+        <div class="proj-name">NABIDKA_MAJETKU</div>
+        <div class="proj-desc">Inzerce majetku Vlády San Andreas - vozidla, nemovitosti. Ve spolupráci s Vládou San Andreas.</div>
+      </div>
+      <span class="proj-status live">LIVE</span>
+      <span class="proj-arrow">→</span>
+    </a>
+    <a href="https://artic.leosight.cz/pocasi.ic" target="_top" class="proj-item">
+      <span class="proj-idx">02&nbsp;/</span>
+      <div class="proj-info">
+        <div class="proj-name">POCASI.IC</div>
+        <div class="proj-desc">Aktuální teplota v lokalitě — přímá data ze stanice. Brát s rezervou.</div>
+      </div>
+      <span class="proj-status live">LIVE</span>
+      <span class="proj-arrow">→</span>
+    </a>
+    <a href="https://artic.leosight.cz/safi.ic" target="_top" class="proj-item">
+      <span class="proj-idx">03&nbsp;/</span>
+      <div class="proj-info">
+        <div class="proj-name">FLIGHT_INFO</div>
+        <div class="proj-desc">Letové trasy, časy a pravidelné mezistátní odlety a přílety. Ve spolupráci s leteckými společnostmi.</div>
+      </div>
+      <span class="proj-status live">LIVE</span>
+      <span class="proj-arrow">→</span>
+    </a>
+    <div class="proj-item">
+      <span class="proj-idx">04&nbsp;/</span>
+      <div class="proj-info">
+        <div class="proj-name">TBA</div>
+        <div class="proj-desc">Několik projektů v raném stádiu. Budeme zavčasu informovat.</div>
+      </div>
+      <span class="proj-status soon">PENDING</span>
+      <span class="proj-arrow">—</span>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="podpora">
+  <div class="sec-header">
+    <span class="sec-id">[03]</span>
+    <span class="sec-title">PODPORA.SYS</span>
+  </div>
+  <div class="support-body">
+    <div>
+      <p>Nejste-li cílovým zákazníkem našich služeb, ale přesto si přejete podpořit chod naší společnosti a tvorbu dalších projektů, můžete nás podpořit zasláním libovolné částky na účet právnické osoby ZAYA-TEC.</p>
+      <p>V případě vašeho přání vyjádříme vděk mimo jiné uveřejněním vašeho daru. Pomněte však, že finance lze využít mnohem zodpovědnější cestou.</p>
+    </div>
+    <div class="data-box">
+      <div class="data-entry">
+        <span class="de-key">entity</span>
+        <span class="de-val">ZAYA-TEC</span>
+      </div>
+      <div class="data-entry">
+        <span class="de-key">ico</span>
+        <span class="de-val">639</span>
+      </div>
+      <div class="data-entry">
+        <span class="de-key">ceo</span>
+        <span class="de-val">Ing. Steve Zayas</span>
+      </div>
+      <div class="data-entry">
+        <span class="de-key">cfo</span>
+        <span class="de-val">Mgr. Lena Zayas</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <span>ZAYA-TEC © 2024 · IČ 639 · <strong>Ing. Steve Zayas</strong> · <strong>Mgr. Lena Zayas</strong></span>
+  <span>Prezentace v raném stádiu - obsah se může měnit<span class="blink">_</span></span>
+</footer>
+
+</div>
+</body>
 </html>
