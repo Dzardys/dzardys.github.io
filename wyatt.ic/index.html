@@ -1,172 +1,201 @@
 <!DOCTYPE html>
 <html lang="cs">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>WYATT.IC</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    </head>
-    <style>
-        .carousel-control-next,
-        .carousel-control-prev {
-            filter: invert(100%);
-        }
-        body {
-            overflow: auto;
-            background-color: #ffffff;
-        }
-    </style>
-    <body>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WYATT.IC — Fanpage</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+    background: #fff;
+    color: #111;
+    font-size: 15px;
+    line-height: 1.6;
+  }
 
-        <div class="container w-75">
-            <div class="text-center mt-3">
-                <h1>Oficiální fanpage Einara Wyatta</h1>
-                <h5 class="mb-3">Založeno v roce 2023 nejvěrnějším fanouškem, npor. Steve Zayasem</h5>
-                <img src="https://i.imgur.com/7tk8S17.jpg" class="m-3 rounded"><br>
-                <a class="btn btn-primary" href="#einar">O Einarovi</a>
-                <a class="btn btn-primary" href="#fotogalerie">Fotogalerie</a>
-                <a class="btn btn-primary" href="#kontakt">Kontakt</a>
-            </div>
-            <hr>
-            <div id="einar">
-                <h2>O Einarovi</h2>
-                <p>Einar Wyatt se narodil 18.5.1989, čímž vnesl do našeho světa spoustu světla a zločinobijectví. O jeho dětství skoro nic nevíme, avšak domníváme se, že se již narodil s knírkem a cool brýlemi. Již od útlého věku taktéž proháněl zločince ve svém odtahovém voze a pozatýkal tak nespočet drogových dealerů. V roce 2021 byl převelen do sboru Policie San Andreas v místním oddělení v Red County. Díky svému nástupu se společně s tehdejší slečnou Frost a panem Zayasem zasloužili a převrat a ujali se celého PSA sboru, čímž rapidně stoupla jeho úroveň.</p>
-                <p>Se vznikem Irisu se následně Einar vydal cestou influencera a svými příspěvky si získal obrovskou spoustu příznivců a fanoušků. Bohužel mu sláva začala lézt do času a on tak nezvládal být aktivní v policejním sboru. Ředitelství Policie San Andreas proto rozhodlo, že si Einara veme pod svá křídla a oddělení předá do rukou jeho partnerů v revoluci. Od té doby je Einar jedním z nejdůležitějších úředníků v našem státě a ze své kanceláře v Los Santos dohlíží na řádný chod celého sboru, aniž by během své práce musel nastartovat své odtahové vozidlo. Od té doby bohužel Einara moc lidí osobně nepotkalo, avšak pevně věříme, že i nadále zůstává věrným lovcem drogových dealerů.</p>
-            </div>
-            <hr>
-            <div id="fotogalerie">
-                <h2>Fotogalerie</h2>
-                <div id="carouselWyatt" class="carousel slide text-center" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="4" aria-label="Slide 5"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="5" aria-label="Slide 6"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="6" aria-label="Slide 7"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="7" aria-label="Slide 8"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="8" aria-label="Slide 9"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="9" aria-label="Slide 10"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="10" aria-label="Slide 11"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="11" aria-label="Slide 12"></button>
-                    <button type="button" data-bs-target="#carouselWyatt" data-bs-slide-to="12" aria-label="Slide 13"></button>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="galerie/1.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyattův merch</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/2.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt zatýká s kámošem</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/3.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt na kámošovo svatbě</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/4.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt se Zayasem</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/5.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt Kobra 11</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/6.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt v nové práci</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/7.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt s vánočním Wyattem a Lichenesem</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/8.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt s jeho autem na pursuity</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/9.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt na rybách</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/10.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt má rýmu</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/11.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt nadává Lydii</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/12.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt zatýká bubáka</h5>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="galerie/13.jpg" height=600>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Wyatt dostal poprvé telefon</h5>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselWyatt" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Předchozí</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselWyatt" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Další</span>
-                </button>
-                </div>
-            </div>
-            <hr>
-            <div id="kontakt" class="mb-3">
-                <h2>Kontakt</h2>
-                <div class="row text-center">
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="https://artic.leosight.cz/iris.ic/wyatt" target="_top"><img src="https://artic.leosight.cz/www/_home/iris.png"></a>
-                                <h4>@wyatt</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="https://artic.leosight.cz/post.ic/" target="_top"><img src="https://artic.leosight.cz/www/_home/post.png"></a>
-                                <h4>einar.wyatt@post.ic</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p class="text-muted text-center">Se vší láskou vytvořil Steve Zayas.</p>
-        </div>
-    </body>
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+
+  .subtitle {
+    color: #666;
+    margin: 0 0 24px;
+    font-size: 14px;
+  }
+
+  img.profilovka {
+    float: right;
+    width: 140px;
+    margin: 0 0 16px 24px;
+    border-radius: 6px;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 32px 0 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px;
+  }
+
+  p {
+    margin: 0 0 14px;
+    color: #222;
+  }
+
+  .clearfix::after { content: ''; display: table; clear: both; }
+
+  .galerie-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #000;
+  }
+
+  .galerie-inner {
+    display: flex;
+    transition: transform 0.35s ease;
+  }
+
+  .galerie-inner img {
+    min-width: 100%;
+    max-height: 460px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .galerie-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .galerie-nav button {
+    background: #f0f0f0;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+  }
+  .galerie-nav button:hover { background: #e0e0e0; }
+
+  .galerie-popis {
+    flex: 1;
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
+  }
+
+  .galerie-pocitadlo {
+    font-size: 13px;
+    color: #999;
+  }
+
+  /* kontakt */
+  .kontakt-radek {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    text-decoration: none;
+    color: #111;
+  }
+  .kontakt-radek:last-child { border-bottom: none; }
+  .kontakt-radek img { height: 32px; }
+  .kontakt-radek:hover { background: #fafafa; }
+
+  footer {
+    margin-top: 48px;
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<h1>Oficiální fanpage Einara Wyatta</h1>
+<p class="subtitle">Founded 2023 by npor. Steve Zayas &nbsp;·&nbsp; wyatt.ic</p>
+
+<div class="clearfix">
+  <img src="https://i.imgur.com/7tk8S17.jpg" alt="Einar Wyatt" class="profilovka">
+
+  <h2>O Einarovi</h2>
+  <p>Einar Wyatt se narodil 18. 5. 1989, čímž vnesl do našeho světa spoustu světla a zločinoběžectví. O jeho dětství skoro nic nevíme, avšak domníváme se, že se již narodil s knírkem a cool brýlemi. Již od útlého věku proháněl zločince ve svém odtahovém voze a pozatýkal tak nespočet drogových dealerů.</p>
+  <p>V roce 2021 byl převelen do sboru Policie San Andreas v místním oddělení v Red County. Díky svému nástupu se společně s tehdejší slečnou Frost a panem Zayasem zasloužili o převrat a ujali se celého PSA sboru, čímž rapidně stoupla jeho úroveň.</p>
+  <p>Se vznikem Irisu se Einar vydal cestou influencera. Bohužel mu sláva začala lézt do času a on tak nezvládal být aktivní v policejním sboru. Ředitelství PSA proto rozhodlo, že si Einara vezme pod svá křídla. Od té doby je jedním z nejdůležitějších úředníků v státě a ze své kanceláře v Los Santos dohlíží na řádný chod celého sboru — aniž by musel nastartovat odtahové vozidlo.</p>
+</div>
+
+<h2>Fotogalerie</h2>
+<div class="galerie-wrap">
+  <div class="galerie-inner" id="gi">
+    <img src="galerie/1.jpg" alt="Wyattův merch">
+    <img src="galerie/2.jpg" alt="Wyatt zatýká s kámošem">
+    <img src="galerie/3.jpg" alt="Wyatt na kámošově svatbě">
+    <img src="galerie/4.jpg" alt="Wyatt se Zayasem">
+    <img src="galerie/5.jpg" alt="Wyatt Kobra 11">
+    <img src="galerie/6.jpg" alt="Wyatt v nové práci">
+    <img src="galerie/7.jpg" alt="Wyatt s vánočním Wyattem a Lichenesem">
+    <img src="galerie/8.jpg" alt="Wyatt s jeho autem na pursuity">
+    <img src="galerie/9.jpg" alt="Wyatt na rybách">
+    <img src="galerie/10.jpg" alt="Wyatt má rýmu">
+    <img src="galerie/11.jpg" alt="Wyatt nadává Lydii">
+    <img src="galerie/12.jpg" alt="Wyatt zatýká bubáka">
+    <img src="galerie/13.jpg" alt="Wyatt dostal poprvé telefon">
+  </div>
+</div>
+<div class="galerie-nav">
+  <button id="gprev">← Zpět</button>
+  <span class="galerie-popis" id="gpopis">Wyattův merch</span>
+  <span class="galerie-pocitadlo" id="gcnt">1 / 13</span>
+  <button id="gnext">Další →</button>
+</div>
+
+<h2>Kontakt</h2>
+<a href="https://artic.leosight.cz/iris.ic/wyatt" target="_top" class="kontakt-radek">
+  <img src="https://artic.leosight.cz/www/_home/iris.png" alt="Iris">
+  <span>@wyatt na Irisu</span>
+</a>
+<a href="https://artic.leosight.cz/post.ic/" target="_top" class="kontakt-radek">
+  <img src="https://artic.leosight.cz/www/_home/post.png" alt="Post">
+  <span>einar.wyatt@post.ic</span>
+</a>
+
+<footer>Se vší láskou vytvořil Steve Zayas.</footer>
+
+<script>
+  const imgs = document.querySelectorAll('#gi img');
+  const gi = document.getElementById('gi');
+  const gpopis = document.getElementById('gpopis');
+  const gcnt = document.getElementById('gcnt');
+  let cur = 0;
+
+  function show(n) {
+    cur = (n + imgs.length) % imgs.length;
+    gi.style.transform = 'translateX(-' + (cur * 100) + '%)';
+    gpopis.textContent = imgs[cur].alt;
+    gcnt.textContent = (cur + 1) + ' / ' + imgs.length;
+  }
+
+  document.getElementById('gprev').onclick = () => show(cur - 1);
+  document.getElementById('gnext').onclick = () => show(cur + 1);
+
+  let sx = 0;
+  gi.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive: true});
+  gi.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 40) show(dx < 0 ? cur + 1 : cur - 1);
+  });
+</script>
+</body>
 </html>
