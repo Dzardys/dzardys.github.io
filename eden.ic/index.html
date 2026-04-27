@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nadace Eden</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f5f7f2;
+  --card: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --accent: #3B6D11;
+  --accent-light: #EAF3DE;
+  --accent-mid: #639922;
+  --text: #1a1f14;
+  --muted: #6b7560;
+  --muted-light: #a8b09e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 56px 24px 40px;
+  position: relative;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-light);
+  border-radius: 99px;
+  padding: 5px 14px;
+  margin-bottom: 20px;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent-mid);
+  border-radius: 50% 0 50% 0;
+  display: inline-block;
+}
+
+header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 42px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+header p {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+.total-box {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 36px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.total-box span {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-light);
+}
+
+.total-box strong {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+.section {
+  margin-bottom: 36px;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-light);
+  margin-bottom: 12px;
+  padding-left: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 22px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.2s ease;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+}
+
+.card-top-bar {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 3px;
+  background: #d4e6b8;
+}
+
+.card-top-bar.active {
+  background: linear-gradient(90deg, #3B6D11, #97C459);
+}
+
+.active-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-light);
+  border-radius: 99px;
+  padding: 3px 10px;
+  margin-bottom: 10px;
+}
+
+.card-name {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.card-amount {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.donor-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.2s ease;
+}
+
+.donor-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.donor-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.donor-name {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.donor-amount {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--muted-light);
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 24px 20px;
+  font-size: 11px;
+  color: var(--muted-light);
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge"><span class="badge-dot"></span>Nadace Eden</div>
+  <h1>Pro život —<br>pro planetu</h1>
+  <p>Pomáháme tam, kde je to nejvíce potřeba</p>
+  <div class="total-box">
+    <span>Celkem vybráno</span>
+    <strong id="total-money">0 Kč</strong>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="section">
+    <div class="section-label">Aktivní sbírka</div>
+    <div id="current-collection"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Ukončené sbírky</div>
+    <div id="collections" class="grid"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Přispěvatelé</div>
+    <div id="donors" class="grid"></div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Nadace Eden, Anna Medina &nbsp;·&nbsp; iris.ic/eden
+</footer>
+
+<script>
+const currentCollection = {
+  name: "Pomoc Adrianovi s nákladnou zahraniční léčbou",
+  raised: 0
+};
+
+const collections = [];
+
+const donors = [];
+
+function animateNumber(el, target) {
+  let start = 0;
+  const steps = 55;
+  const inc = target / steps;
+  let count = 0;
+  const iv = setInterval(() => {
+    count++;
+    start += inc;
+    if (count >= steps) { start = target; clearInterval(iv); }
+    el.textContent = Math.floor(start).toLocaleString('cs-CZ') + " Kč";
+  }, 16);
+}
+
+function initials(name) {
+  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+}
+
+function renderCurrent() {
+  const el = document.getElementById('current-collection');
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <div class="card-top-bar active"></div>
+    <div class="active-tag">Probíhá</div>
+    <div class="card-name">${currentCollection.name}</div>
+    <div class="card-amount money" data-value="${currentCollection.raised}">0 Kč</div>
+  `;
+  el.appendChild(div);
+  setTimeout(() => div.classList.add('visible'), 80);
+}
+
+function renderCollections() {
+  const el = document.getElementById('collections');
+  if (!collections.length) {
+    el.innerHTML = '<div class="empty">Zatím žádné ukončené sbírky</div>';
+    return;
+  }
+  collections.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.style.transitionDelay = (i * 70) + 'ms';
+    div.innerHTML = `
+      <div class="card-top-bar"></div>
+      <div class="card-name">${c.name}</div>
+      <div class="card-amount money" data-value="${c.raised}">0 Kč</div>
+    `;
+    el.appendChild(div);
+    setTimeout(() => div.classList.add('visible'), 100 + i * 70);
+  });
+}
+
+function renderDonors() {
+  const el = document.getElementById('donors');
+  if (!donors.length) {
+    el.innerHTML = '<div class="empty">Zatím žádní přispěvatelé</div>';
+    return;
+  }
+  donors.forEach((d, i) => {
+    const div = document.createElement('div');
+    div.className = 'donor-card';
+    div.style.transitionDelay = (i * 70) + 'ms';
+    div.innerHTML = `
+      <div class="avatar">${initials(d.name)}</div>
+      <span class="donor-name">${d.name}</span>
+      <strong class="donor-amount money" data-value="${d.amount}">0 Kč</strong>
+    `;
+    el.appendChild(div);
+    setTimeout(() => div.classList.add('visible'), 100 + i * 70);
+  });
+}
+
+function render() {
+  renderCurrent();
+  renderCollections();
+  renderDonors();
+
+  const total = currentCollection.raised + collections.reduce((s, c) => s + c.raised, 0);
+  animateNumber(document.getElementById('total-money'), total);
+
+  document.querySelectorAll('.money').forEach(el => {
+    animateNumber(el, parseInt(el.dataset.value) || 0);
+  });
+}
+
+render();
+</script>
+
+</body>
+</html>
