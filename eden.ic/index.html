@@ -242,7 +242,6 @@ header p {
   border-radius: 16px;
 }
 
-/* ── FOOTER ── */
 footer {
   text-align: center;
   padding: 24px 20px;
@@ -288,30 +287,73 @@ footer {
 </footer>
 
 <script>
-const currentCollection = {
-  name: "Pomoc Adrianovi s nákladnou zahraniční léčbou",
-  raised: 2380000
-};
+let currentCollection = {};
+let collections = [];
+let donors = [];
 
-const collections = [];
+function showError(msg) {
+  document.querySelector('.container').innerHTML = `
+    <div style="
+      max-width:600px;
+      margin:80px auto;
+      text-align:center;
+      background:white;
+      border:1px solid rgba(0,0,0,0.08);
+      border-radius:16px;
+      padding:30px;
+    ">
+      <h2 style="margin-bottom:10px;">⚠️ Nepodařilo se načíst data</h2>
+      <p style="color:#6b7560;font-size:14px;">
+        ${msg}
+      </p>
+      <p style="margin-top:12px;font-size:12px;color:#a8b09e;">
+        Zkontroluj, že server <b>dzardys.eu</b> povoluje přístup (CORS)
+      </p>
+    </div>
+  `;
+}
 
-const donors = [
-    {name: "Vortex Company", amount: 80000},
-    {name: "Max Lombardi", amount: 500000},
-    {name: "Pedro Guzman", amount: 300000},
-    {name: "Adrijan Hristov", amount: 500000},
-    {name: "Faule Jungs s.r.o.", amount: 1000000}
-];
+function loadData() {
+  fetch("https://dzardys.eu/eden/data.json?ts=" + Date.now())
+    .then(res => {
+      if (!res.ok) throw new Error("HTTP chyba");
+      return res.json();
+    })
+    .then(data => {
+      currentCollection = data.currentCollection || {};
+      collections = data.collections || [];
+      donors = data.donors || [];
+
+      render();
+    })
+    .catch(err => {
+      console.error(err);
+
+      showError(`
+        Nepodařilo se spojit se serverem nebo je blokovaný.<br><br>
+        ➜ Pokud jsi admin:<br>
+        povol CORS na serveru (Access-Control-Allow-Origin: *)<br><br>
+        ➜ Pokud jsi návštěvník:<br>
+        server může být dočasně nedostupný
+      `);
+    });
+}
 
 function animateNumber(el, target) {
   let start = 0;
   const steps = 55;
   const inc = target / steps;
   let count = 0;
+
   const iv = setInterval(() => {
     count++;
     start += inc;
-    if (count >= steps) { start = target; clearInterval(iv); }
+
+    if (count >= steps) {
+      start = target;
+      clearInterval(iv);
+    }
+
     el.textContent = Math.floor(start).toLocaleString('cs-CZ') + " Kč";
   }, 16);
 }
@@ -322,33 +364,42 @@ function initials(name) {
 
 function renderCurrent() {
   const el = document.getElementById('current-collection');
+  el.innerHTML = "";
+
   const div = document.createElement('div');
   div.className = 'card';
+
   div.innerHTML = `
     <div class="card-top-bar active"></div>
     <div class="active-tag">Probíhá</div>
-    <div class="card-name">${currentCollection.name}</div>
-    <div class="card-amount money" data-value="${currentCollection.raised}">0 Kč</div>
+    <div class="card-name">${currentCollection.name || "Bez názvu"}</div>
+    <div class="card-amount money" data-value="${currentCollection.raised || 0}">0 Kč</div>
   `;
+
   el.appendChild(div);
   setTimeout(() => div.classList.add('visible'), 80);
 }
 
 function renderCollections() {
   const el = document.getElementById('collections');
+  el.innerHTML = "";
+
   if (!collections.length) {
     el.innerHTML = '<div class="empty">Zatím žádné ukončené sbírky</div>';
     return;
   }
+
   collections.forEach((c, i) => {
     const div = document.createElement('div');
     div.className = 'card';
     div.style.transitionDelay = (i * 70) + 'ms';
+
     div.innerHTML = `
       <div class="card-top-bar"></div>
       <div class="card-name">${c.name}</div>
       <div class="card-amount money" data-value="${c.raised}">0 Kč</div>
     `;
+
     el.appendChild(div);
     setTimeout(() => div.classList.add('visible'), 100 + i * 70);
   });
@@ -356,19 +407,24 @@ function renderCollections() {
 
 function renderDonors() {
   const el = document.getElementById('donors');
+  el.innerHTML = "";
+
   if (!donors.length) {
     el.innerHTML = '<div class="empty">Zatím žádní přispěvatelé</div>';
     return;
   }
+
   donors.forEach((d, i) => {
     const div = document.createElement('div');
     div.className = 'donor-card';
     div.style.transitionDelay = (i * 70) + 'ms';
+
     div.innerHTML = `
       <div class="avatar">${initials(d.name)}</div>
       <span class="donor-name">${d.name}</span>
       <strong class="donor-amount money" data-value="${d.amount}">0 Kč</strong>
     `;
+
     el.appendChild(div);
     setTimeout(() => div.classList.add('visible'), 100 + i * 70);
   });
@@ -379,7 +435,10 @@ function render() {
   renderCollections();
   renderDonors();
 
-  const total = currentCollection.raised + collections.reduce((s, c) => s + c.raised, 0);
+  const total =
+    (currentCollection.raised || 0) +
+    collections.reduce((s, c) => s + (c.raised || 0), 0);
+
   animateNumber(document.getElementById('total-money'), total);
 
   document.querySelectorAll('.money').forEach(el => {
@@ -387,7 +446,7 @@ function render() {
   });
 }
 
-render();
+loadData();
 </script>
 
 </body>
