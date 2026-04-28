@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>LeoSight.cz - Filtr logů</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@500;600&display=swap" rel="stylesheet">
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -22,11 +23,12 @@
     --accentBg:#1e1530;
     --accentBd:#3d2870;
 
-    --IC:    #f0ecff;
-    --OOC:   #706890;
-    --ME:    #c490ff;
-    --DO:    #c490ff;
-    --RADIO: #50c0f8;
+    --IC:      #f0ecff;
+    --OOC:     #706890;
+    --FACTION: #8aa0ff;
+    --ME:      #c490ff;
+    --DO:      #c490ff;
+    --RADIO:   #50c0f8;
 
     --radius: 10px;
     --radius-sm: 7px;
@@ -36,10 +38,7 @@
     from { opacity: 0; transform: translateY(4px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  @keyframes shimmer {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
+
   @keyframes checkPop {
     0%   { transform: scale(1); }
     40%  { transform: scale(1.25); }
@@ -89,12 +88,6 @@
     font-weight: 600;
     color: var(--text);
     letter-spacing: -0.01em;
-  }
-
-  .header-text p {
-    font-size: 11px;
-    color: var(--dimmer);
-    margin-top: 2px;
   }
 
   label.block {
@@ -326,11 +319,12 @@
 
   .line:hover .ts { color: var(--dim); }
 
-  .IC    { color: var(--IC); font-weight: 400; }
-  .OOC   { color: var(--OOC); font-style: italic; }
-  .ME    { color: var(--ME); font-weight: 600; }
-  .DO    { color: var(--DO); font-weight: 600; }
-  .RADIO { color: var(--RADIO); font-weight: 600; }
+  .IC      { color: var(--IC); font-weight: 400; }
+  .OOC     { color: var(--OOC); font-style: italic; }
+  .FACTION { color: var(--FACTION); font-style: italic; font-weight: 600; }
+  .ME      { color: var(--ME); font-weight: 600; }
+  .DO      { color: var(--DO); font-weight: 600; }
+  .RADIO   { color: var(--RADIO); font-weight: 600; }
 
   footer {
     margin-top: 52px;
@@ -351,9 +345,9 @@
   }
 </style>
 </head>
+
 <body>
 <main>
-
   <div class="header">
     <div class="logo">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -377,11 +371,13 @@
     <span class="filters-label">zobrazit</span>
     <label><input type="checkbox" id="ic" checked> IC</label>
     <label><input type="checkbox" id="ooc" checked> OOC</label>
+    <label><input type="checkbox" id="faction" checked> Frakční</label>
     <label><input type="checkbox" id="me" checked> /me</label>
     <label><input type="checkbox" id="do" checked> /do</label>
     <label><input type="checkbox" id="radio" checked> Vysílačka</label>
     <div class="sep"></div>
     <label><input type="checkbox" id="timestamp" checked> Timestamp</label>
+    <label><input type="checkbox" id="language" checked> Jazyk</label>
   </div>
 
   <div class="actions">
@@ -400,85 +396,212 @@
 </footer>
 
 <script>
-function normalize(line) { return line.trim().replace(/\s+/g, ' '); }
+function normalize(line) {
+  return line.trim().replace(/\s+/g, ' ');
+}
 
 function mergeLines(rawLines) {
   const result = [];
+
   for (let i = 0; i < rawLines.length; i++) {
     let line = rawLines[i].trim();
     if (!line) continue;
-    if (/^\d{1,2}\.\d{1,2}\.\d{4}\d{2}:\d{2}:\d{2}/.test(line)) { result.push(line); continue; }
-    if (/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(line)) {
-      const date = line, time = rawLines[i+1]?.trim(), text = rawLines[i+2]?.trim();
-      if (/^\d{2}:\d{2}:\d{2}$/.test(time) && text) { result.push(`${date}${time}${text}`); i += 2; continue; }
+
+    if (/^\d{1,2}\.\d{1,2}\.\d{4}\d{2}:\d{2}:\d{2}/.test(line)) {
+      result.push(line);
+      continue;
     }
+
+    if (/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(line)) {
+      const date = line;
+      const time = rawLines[i + 1]?.trim();
+      const text = rawLines[i + 2]?.trim();
+
+      if (/^\d{2}:\d{2}:\d{2}$/.test(time) && text) {
+        result.push(`${date}${time}${text}`);
+        i += 2;
+        continue;
+      }
+    }
+
     result.push(line);
   }
+
   return result;
 }
 
 function parseLine(line) {
   line = normalize(line);
+
   const ts = line.match(/^(\d{1,2}\.\d{1,2}\.\d{4})(\d{2}:\d{2}:\d{2})/);
   if (!ts) return null;
+
   const [, date, time] = ts;
   const body = line.slice(ts[0].length).trim();
+
   if (/^\[(GM|GA|ADM|AT|MONITOR|UNBUG)\]/.test(body)) return null;
   if (/^INZERÁT:/.test(body)) return null;
+  if (/Počasí změneno/.test(body)) return null;
+
   let m;
-  m = body.match(/^\[(?!GM|GA|ADM|AT|MONITOR|UNBUG)(.+?)\]\s(.+?)\sříká:\s(.+)/);
-  if (m) return { type:"IC", lang:m[1], name:m[2], text:m[3], date, time };
-  m = body.match(/^\[(\d+\|\#\d+)\]\s(.+?)\sříká:\s(.+)/);
-  if (m) return { type:"RADIO", name:m[2], text:m[3], date, time };
-  m = body.match(/^[★\*]\s?(.+)/);
-  if (m) return { type:"ME", text:m[1], date, time };
-  m = body.match(/^(.+?):\s\(\((.+)\)\)/);
-  if (m) return { type:"OOC", name:m[1], text:`((${m[2]}))`, date, time };
+
+  // frakční / skupinový OOC: ((PSA)) Jacob O'Brien: text
+  m = body.match(/^\(\(([^)]+)\)\)\s+(.+?):\s*(.+)$/);
+  if (m) {
+    return {
+      type: "FACTION",
+      channel: m[1],
+      name: m[2],
+      text: m[3],
+      date,
+      time
+    };
+  }
+
+  // OOC hráč: Jacob: (( text ))
+  m = body.match(/^(.+?):\s*\(\((.+)\)\)$/);
+  if (m) {
+    return {
+      type: "OOC",
+      name: m[1],
+      text: `((${m[2]}))`,
+      date,
+      time
+    };
+  }
+
+  // čistý OOC: (( text ))
   m = body.match(/^\(\((.+)\)\)$/);
-  if (m) return { type:"OOC", text:`((${m[1]}))`, date, time };
-  if (/\(\(.+\)\)/.test(body)) return { type:"DO", text:body, date, time };
+  if (m) {
+    return {
+      type: "OOC",
+      text: `((${m[1]}))`,
+      date,
+      time
+    };
+  }
+
+  // vysílačka s jazykem: [Čeština] [1|#159] Jméno říká:
+  m = body.match(/^\[(?!GM|GA|ADM|AT|MONITOR|UNBUG)(.+?)\]\s+\[((?:\d+\|)?#\d+)\]\s+(.+?)\s+říká:\s*(.+)$/);
+  if (m) {
+    return {
+      type: "RADIO",
+      lang: m[1],
+      channel: m[2],
+      name: m[3],
+      text: m[4],
+      date,
+      time
+    };
+  }
+
+  // vysílačka bez jazyka: [#159] Jméno říká:
+  m = body.match(/^\[((?:\d+\|)?#\d+)\]\s+(.+?)\s+říká:\s*(.+)$/);
+  if (m) {
+    return {
+      type: "RADIO",
+      channel: m[1],
+      name: m[2],
+      text: m[3],
+      date,
+      time
+    };
+  }
+
+  // /do: ★ text ((Jméno))
+  m = body.match(/^★\s*(.+?)\s*\(\((.+?)\)\)$/);
+  if (m) {
+    return {
+      type: "DO",
+      text: `${m[1]} ((${m[2]}))`,
+      date,
+      time
+    };
+  }
+
+  // /me: *Jméno něco* nebo ★ Jméno něco
+  m = body.match(/^[★*]\s?(.+)/);
+  if (m) {
+    return {
+      type: "ME",
+      text: m[1],
+      date,
+      time
+    };
+  }
+
+  // IC běžný chat
+  m = body.match(/^\[(?!GM|GA|ADM|AT|MONITOR|UNBUG)(.+?)\]\s+(.+?)\s+říká:\s*(.+)$/);
+  if (m) {
+    return {
+      type: "IC",
+      lang: m[1],
+      name: m[2],
+      text: m[3],
+      date,
+      time
+    };
+  }
+
   return null;
 }
 
 let debounceTimer = null;
-function scheduleProcess() { clearTimeout(debounceTimer); debounceTimer = setTimeout(process, 120); }
+
+function scheduleProcess() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(process, 120);
+}
 
 function process() {
   const rawLines = document.getElementById("input").value.split("\n");
   const lines = mergeLines(rawLines);
+
   const showTs = document.getElementById("timestamp").checked;
+  const showLang = document.getElementById("language").checked;
+
   const filters = {
     IC: document.getElementById("ic").checked,
     OOC: document.getElementById("ooc").checked,
+    FACTION: document.getElementById("faction").checked,
     ME: document.getElementById("me").checked,
     DO: document.getElementById("do").checked,
-    RADIO: document.getElementById("radio").checked,
+    RADIO: document.getElementById("radio").checked
   };
 
   const output = document.getElementById("output");
   output.innerHTML = "";
+
   let count = 0;
 
   for (const line of lines) {
     const p = parseLine(line);
     if (!p || !filters[p.type]) continue;
+
     count++;
+
     const row = document.createElement("div");
     row.className = "line";
     row.style.animationDelay = `${Math.min(count * 8, 180)}ms`;
+
     if (showTs) {
       const ts = document.createElement("span");
       ts.className = "ts";
       ts.textContent = `${p.date} ${p.time}`;
       row.appendChild(ts);
     }
+
     const body = document.createElement("span");
     body.className = p.type;
+
     let txt = "";
-    if (p.type === "IC") txt += `[${p.lang}] `;
+    if (showLang && p.lang) txt += `[${p.lang}] `;
+    if (p.channel) txt += `[${p.channel}] `;
     if (p.name) txt += `${p.name}: `;
     txt += p.text;
+
     body.textContent = txt;
+
     row.appendChild(body);
     output.appendChild(row);
   }
@@ -486,23 +609,40 @@ function process() {
   const raw = document.getElementById("input").value;
   const meta = document.getElementById("resultMeta");
   const ftr = document.getElementById("footerStatus");
-  if (count > 0) { meta.textContent = `${count} řádků`; ftr.textContent = `${count} záznamů`; }
-  else if (raw.trim().length > 0) { meta.textContent = "žádné shody"; ftr.textContent = ""; }
-  else { meta.textContent = ""; ftr.textContent = ""; }
+
+  if (count > 0) {
+    meta.textContent = `${count} řádků`;
+    ftr.textContent = `${count} záznamů`;
+  } else if (raw.trim().length > 0) {
+    meta.textContent = "žádné shody";
+    ftr.textContent = "";
+  } else {
+    meta.textContent = "";
+    ftr.textContent = "";
+  }
 }
 
 function copyOutput() {
   const lines = document.getElementById("output").querySelectorAll(".line");
   if (!lines.length) return;
+
   const text = Array.from(lines).map(row =>
-    Array.from(row.querySelectorAll("span")).map(s => s.textContent.trim()).join("  ")
+    Array.from(row.querySelectorAll("span"))
+      .map(s => s.textContent.trim())
+      .join("  ")
   ).join("\n");
+
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById("copyBtn");
     const orig = btn.textContent;
+
     btn.textContent = "zkopírováno ✓";
     btn.classList.add("copied");
-    setTimeout(() => { btn.textContent = orig; btn.classList.remove("copied"); }, 2000);
+
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove("copied");
+    }, 2000);
   });
 }
 
@@ -511,20 +651,24 @@ function clearAll() {
   document.getElementById("output").innerHTML = "";
   document.getElementById("resultMeta").textContent = "";
   document.getElementById("footerStatus").textContent = "";
+
   const cc = document.getElementById("charCount");
-  cc.textContent = "0 znaků"; cc.classList.remove("active");
+  cc.textContent = "0 znaků";
+  cc.classList.remove("active");
 }
 
 document.getElementById("input").addEventListener("input", function() {
   const len = this.value.length;
   const cc = document.getElementById("charCount");
+
   cc.textContent = len > 0 ? `${len.toLocaleString("cs")} znaků` : "0 znaků";
   cc.classList.toggle("active", len > 0);
+
   scheduleProcess();
 });
 
-["ic","ooc","me","do","radio","timestamp"].forEach(id => {
-  document.getElementById(id).addEventListener("change", () => process());
+["ic", "ooc", "faction", "me", "do", "radio", "timestamp", "language"].forEach(id => {
+  document.getElementById(id).addEventListener("change", process);
 });
 </script>
 </body>
