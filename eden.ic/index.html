@@ -314,7 +314,7 @@ function showError(msg) {
 }
 
 function loadData() {
-  fetch("https://dzardys.eu/eden/data.php?ts=" + Date.now())
+  fetch("https://dzardys.eu/eden/api/data.php?ts=" + Date.now())
     .then(res => {
       if (!res.ok) throw new Error("HTTP chyba");
       return res.json();
