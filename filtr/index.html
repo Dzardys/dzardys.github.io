@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>LeoSight.cz - Filtr logů</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #141418;
+    --bg2:     #1c1c22;
+    --bg3:     #222228;
+    --surface: #1a1a20;
+    --border:  #2e2e38;
+    --border2: #3a3a48;
+    --text:    #e8e6f0;
+    --dim:     #8880a0;
+    --dimmer:  #554e6e;
+
+    --accent:  #a06cf0;
+    --accentBg:#1e1530;
+    --accentBd:#3d2870;
+
+    --IC:    #f0ecff;
+    --OOC:   #706890;
+    --ME:    #c490ff;
+    --DO:    #c490ff;
+    --RADIO: #50c0f8;
+
+    --radius: 10px;
+    --radius-sm: 7px;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes checkPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.25); }
+    100% { transform: scale(1); }
+  }
+
+  body {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    background: var(--bg);
+    color: var(--text);
+    padding: 44px 32px;
+    max-width: 940px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image:
+      radial-gradient(ellipse at 85% 5%, #a06cf012 0%, transparent 55%),
+      radial-gradient(ellipse at 5% 95%, #6040c010 0%, transparent 50%);
+  }
+
+  main { flex: 1; }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .logo {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #a06cf0, #7040c0);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px #a06cf040;
+  }
+
+  .header-text h1 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .header-text p {
+    font-size: 11px;
+    color: var(--dimmer);
+    margin-top: 2px;
+  }
+
+  label.block {
+    display: block;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--dim);
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .textarea-wrap {
+    position: relative;
+    margin-bottom: 12px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 190px;
+    background: var(--surface);
+    color: #90d890;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 1px 4px #00000030;
+  }
+
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px #a06cf020, inset 0 1px 4px #00000030;
+  }
+
+  textarea::placeholder { color: #2e2e3a; }
+
+  .char-count {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    font-size: 10px;
+    color: var(--dimmer);
+    pointer-events: none;
+    transition: color 0.3s;
+  }
+
+  .char-count.active { color: #60a060; }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-bottom: 14px;
+    align-items: center;
+    padding: 13px 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .filters-label {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--dimmer);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+
+  .filters label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--dim);
+    font-size: 12px;
+    font-weight: 600;
+    transition: color 0.15s;
+    user-select: none;
+    letter-spacing: 0.02em;
+  }
+
+  .filters label:hover { color: var(--text); }
+
+  .filters input[type=checkbox] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border2);
+    border-radius: 5px;
+    background: var(--bg);
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+  }
+
+  .filters input[type=checkbox]:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 8px #a06cf050;
+    animation: checkPop 0.2s ease;
+  }
+
+  .filters input[type=checkbox]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1.5px;
+    width: 5px;
+    height: 8px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+  }
+
+  .sep {
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+    align-items: center;
+  }
+
+  button {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 8px 18px;
+    border: 1.5px solid var(--border2);
+    background: var(--surface);
+    color: var(--dim);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+    text-transform: uppercase;
+  }
+
+  button:hover {
+    background: var(--bg3);
+    color: var(--text);
+    border-color: var(--border2);
+    box-shadow: 0 2px 10px #00000030;
+  }
+
+  button:active { transform: translateY(1px); }
+
+  button.clear { color: var(--dimmer); }
+
+  button.copy {
+    margin-left: auto;
+    color: var(--accent);
+    border-color: var(--accentBd);
+    background: var(--accentBg);
+  }
+
+  button.copy:hover {
+    background: #261840;
+    border-color: var(--accent);
+    box-shadow: 0 2px 12px #a06cf030;
+  }
+
+  button.copy.copied {
+    color: #70d870;
+    border-color: #306830;
+    background: #0e1e0e;
+  }
+
+  .result-meta {
+    font-size: 11px;
+    color: var(--dimmer);
+    margin-left: 2px;
+    letter-spacing: 0.04em;
+  }
+
+  hr {
+    border: none;
+    border-top: 1.5px solid var(--border);
+    margin-bottom: 22px;
+  }
+
+  #output {
+    line-height: 1.9;
+    font-size: 13px;
+  }
+
+  #output:empty::before {
+    content: '—';
+    color: var(--border2);
+    font-size: 16px;
+  }
+
+  .line {
+    display: flex;
+    gap: 18px;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    animation: fadeSlide 0.14s ease both;
+    transition: background 0.1s;
+  }
+
+  .line:hover { background: var(--bg2); }
+
+  .ts {
+    color: var(--border2);
+    flex-shrink: 0;
+    transition: color 0.15s;
+    font-size: 11px;
+    padding-top: 3px;
+    letter-spacing: 0.02em;
+  }
+
+  .line:hover .ts { color: var(--dim); }
+
+  .IC    { color: var(--IC); font-weight: 400; }
+  .OOC   { color: var(--OOC); font-style: italic; }
+  .ME    { color: var(--ME); font-weight: 600; }
+  .DO    { color: var(--DO); font-weight: 600; }
+  .RADIO { color: var(--RADIO); font-weight: 600; }
+
+  footer {
+    margin-top: 52px;
+    padding-top: 14px;
+    border-top: 1.5px solid var(--border);
+    font-size: 11px;
+    color: var(--dimmer);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer .status {
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="header">
+    <div class="logo">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <rect x="2" y="4" width="14" height="2.5" rx="1.25" fill="white" opacity="0.95"/>
+        <rect x="2" y="8" width="10" height="2.5" rx="1.25" fill="white" opacity="0.7"/>
+        <rect x="2" y="12" width="12" height="2.5" rx="1.25" fill="white" opacity="0.45"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Filtr logů V3</h1>
+    </div>
+  </div>
+
+  <label class="block">vstup</label>
+  <div class="textarea-wrap">
+    <textarea id="input" placeholder="vlož log sem..."></textarea>
+    <span class="char-count" id="charCount">0 znaků</span>
+  </div>
+
+  <div class="filters">
+    <span class="filters-label">zobrazit</span>
+    <label><input type="checkbox" id="ic" checked> IC</label>
+    <label><input type="checkbox" id="ooc" checked> OOC</label>
+    <label><input type="checkbox" id="me" checked> /me</label>
+    <label><input type="checkbox" id="do" checked> /do</label>
+    <label><input type="checkbox" id="radio" checked> Vysílačka</label>
+    <div class="sep"></div>
+    <label><input type="checkbox" id="timestamp" checked> Timestamp</label>
+  </div>
+
+  <div class="actions">
+    <button class="clear" onclick="clearAll()">vymazat</button>
+    <span class="result-meta" id="resultMeta"></span>
+    <button class="copy" id="copyBtn" onclick="copyOutput()">kopírovat výstup</button>
+  </div>
+
+  <hr>
+  <div id="output"></div>
+</main>
+
+<footer>
+  <span>Dzardys</span>
+  <span class="status" id="footerStatus"></span>
+</footer>
+
+<script>
+function normalize(line) { return line.trim().replace(/\s+/g, ' '); }
+
+function mergeLines(rawLines) {
+  const result = [];
+  for (let i = 0; i < rawLines.length; i++) {
+    let line = rawLines[i].trim();
+    if (!line) continue;
+    if (/^\d{1,2}\.\d{1,2}\.\d{4}\d{2}:\d{2}:\d{2}/.test(line)) { result.push(line); continue; }
+    if (/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(line)) {
+      const date = line, time = rawLines[i+1]?.trim(), text = rawLines[i+2]?.trim();
+      if (/^\d{2}:\d{2}:\d{2}$/.test(time) && text) { result.push(`${date}${time}${text}`); i += 2; continue; }
+    }
+    result.push(line);
+  }
+  return result;
+}
+
+function parseLine(line) {
+  line = normalize(line);
+  const ts = line.match(/^(\d{1,2}\.\d{1,2}\.\d{4})(\d{2}:\d{2}:\d{2})/);
+  if (!ts) return null;
+  const [, date, time] = ts;
+  const body = line.slice(ts[0].length).trim();
+  if (/^\[(GM|GA|ADM|AT|MONITOR|UNBUG)\]/.test(body)) return null;
+  if (/^INZERÁT:/.test(body)) return null;
+  let m;
+  m = body.match(/^\[(?!GM|GA|ADM|AT|MONITOR|UNBUG)(.+?)\]\s(.+?)\sříká:\s(.+)/);
+  if (m) return { type:"IC", lang:m[1], name:m[2], text:m[3], date, time };
+  m = body.match(/^\[(\d+\|\#\d+)\]\s(.+?)\sříká:\s(.+)/);
+  if (m) return { type:"RADIO", name:m[2], text:m[3], date, time };
+  m = body.match(/^[★\*]\s?(.+)/);
+  if (m) return { type:"ME", text:m[1], date, time };
+  m = body.match(/^(.+?):\s\(\((.+)\)\)/);
+  if (m) return { type:"OOC", name:m[1], text:`((${m[2]}))`, date, time };
+  m = body.match(/^\(\((.+)\)\)$/);
+  if (m) return { type:"OOC", text:`((${m[1]}))`, date, time };
+  if (/\(\(.+\)\)/.test(body)) return { type:"DO", text:body, date, time };
+  return null;
+}
+
+let debounceTimer = null;
+function scheduleProcess() { clearTimeout(debounceTimer); debounceTimer = setTimeout(process, 120); }
+
+function process() {
+  const rawLines = document.getElementById("input").value.split("\n");
+  const lines = mergeLines(rawLines);
+  const showTs = document.getElementById("timestamp").checked;
+  const filters = {
+    IC: document.getElementById("ic").checked,
+    OOC: document.getElementById("ooc").checked,
+    ME: document.getElementById("me").checked,
+    DO: document.getElementById("do").checked,
+    RADIO: document.getElementById("radio").checked,
+  };
+
+  const output = document.getElementById("output");
+  output.innerHTML = "";
+  let count = 0;
+
+  for (const line of lines) {
+    const p = parseLine(line);
+    if (!p || !filters[p.type]) continue;
+    count++;
+    const row = document.createElement("div");
+    row.className = "line";
+    row.style.animationDelay = `${Math.min(count * 8, 180)}ms`;
+    if (showTs) {
+      const ts = document.createElement("span");
+      ts.className = "ts";
+      ts.textContent = `${p.date} ${p.time}`;
+      row.appendChild(ts);
+    }
+    const body = document.createElement("span");
+    body.className = p.type;
+    let txt = "";
+    if (p.type === "IC") txt += `[${p.lang}] `;
+    if (p.name) txt += `${p.name}: `;
+    txt += p.text;
+    body.textContent = txt;
+    row.appendChild(body);
+    output.appendChild(row);
+  }
+
+  const raw = document.getElementById("input").value;
+  const meta = document.getElementById("resultMeta");
+  const ftr = document.getElementById("footerStatus");
+  if (count > 0) { meta.textContent = `${count} řádků`; ftr.textContent = `${count} záznamů`; }
+  else if (raw.trim().length > 0) { meta.textContent = "žádné shody"; ftr.textContent = ""; }
+  else { meta.textContent = ""; ftr.textContent = ""; }
+}
+
+function copyOutput() {
+  const lines = document.getElementById("output").querySelectorAll(".line");
+  if (!lines.length) return;
+  const text = Array.from(lines).map(row =>
+    Array.from(row.querySelectorAll("span")).map(s => s.textContent.trim()).join("  ")
+  ).join("\n");
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("copyBtn");
+    const orig = btn.textContent;
+    btn.textContent = "zkopírováno ✓";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove("copied"); }, 2000);
+  });
+}
+
+function clearAll() {
+  document.getElementById("input").value = "";
+  document.getElementById("output").innerHTML = "";
+  document.getElementById("resultMeta").textContent = "";
+  document.getElementById("footerStatus").textContent = "";
+  const cc = document.getElementById("charCount");
+  cc.textContent = "0 znaků"; cc.classList.remove("active");
+}
+
+document.getElementById("input").addEventListener("input", function() {
+  const len = this.value.length;
+  const cc = document.getElementById("charCount");
+  cc.textContent = len > 0 ? `${len.toLocaleString("cs")} znaků` : "0 znaků";
+  cc.classList.toggle("active", len > 0);
+  scheduleProcess();
+});
+
+["ic","ooc","me","do","radio","timestamp"].forEach(id => {
+  document.getElementById(id).addEventListener("change", () => process());
+});
+</script>
+</body>
+</html>
