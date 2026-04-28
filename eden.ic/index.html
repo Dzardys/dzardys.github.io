@@ -307,7 +307,7 @@ function showError(msg) {
         ${msg}
       </p>
       <p style="margin-top:12px;font-size:12px;color:#a8b09e;">
-        Zkontroluj, že server <b>dzardys.eu</b> povoluje přístup (CORS)
+        Zkontroluj, že server <b>dzardys.eu</b> povoluje přístup
       </p>
     </div>
   `;
@@ -331,10 +331,8 @@ function loadData() {
 
       showError(`
         Nepodařilo se spojit se serverem nebo je blokovaný.<br><br>
-        ➜ Pokud jsi admin:<br>
-        povol CORS na serveru (Access-Control-Allow-Origin: *)<br><br>
         ➜ Pokud jsi návštěvník:<br>
-        server může být dočasně nedostupný
+        server může být dočasně nedostupný nebo nemáš povolenou doménu dzardys.eu
       `);
     });
 }
