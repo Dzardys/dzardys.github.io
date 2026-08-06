@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocakbaşı Kebab | Palomino Creek</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5e8c7;
+            color: #222;
+            line-height: 1.4;
+        }
+        .header {
+            background: linear-gradient(to bottom, #8B0000, #c41e3a);
+            color: yellow;
+            text-align: center;
+            padding: 25px 10px;
+            border-bottom: 8px solid #ffcc00;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 42px;
+            text-shadow: 3px 3px 0 #000;
+            letter-spacing: 2px;
+        }
+        .header p {
+            margin: 8px 0 0;
+            font-size: 18px;
+            color: #fff;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .box {
+            background: #fff;
+            border: 3px solid #8B0000;
+            margin-bottom: 25px;
+            padding: 18px;
+            box-shadow: 5px 5px 0 #ffcc00;
+        }
+        h2 {
+            color: #8B0000;
+            border-bottom: 3px dashed #ffcc00;
+            padding-bottom: 6px;
+            margin-top: 0;
+            font-size: 26px;
+        }
+        .menu-item {
+            background: #fff8e7;
+            border-left: 6px solid #c41e3a;
+            padding: 10px 12px;
+            margin: 10px 0;
+        }
+        .menu-item strong {
+            color: #8B0000;
+            font-size: 18px;
+        }
+        .price {
+            float: right;
+            color: #006400;
+            font-weight: bold;
+        }
+        .hours table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .hours td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .hours tr:nth-child(even) {
+            background: #fff8e7;
+        }
+        .contact p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            background: #333;
+            color: #ccc;
+            padding: 15px;
+            font-size: 13px;
+            margin-top: 30px;
+        }
+        .warning {
+            background: #ffeeee;
+            border: 2px solid red;
+            padding: 10px;
+            margin: 15px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        img.placeholder {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border: 4px solid #8B0000;
+            display: block;
+            margin: 15px auto;
+        }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 28px; }
+            .price { float: none; display: block; margin-top: 4px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>OCАKBAŞI KEBAB</h1>
+    <p>Palomino Creek • Autentický turecký kebab</p>
+</div>
+
+<div class="container">
+
+    <div class="box">
+        <h2>Vítejte u Mustafy!</h2>
+        <p>
+            Tady v Palomino Creek pečeme kebab na opravdovém ohnisku (ocakbaşı).    
+            Provozovatel: <strong>Mustafa Kebabçıoğlu</strong>
+        </p>
+        <p>
+            Jsme malá rodinná kebabárna.
+        </p>
+        <div class="warning">
+            ⚠️ Pozor: POKUD NENÍ OTEVŘENO TAK VOLEJTE DOPŘEDU
+        </div>
+    </div>
+
+    <div class="box">
+        <h2>Naše nabídka</h2>
+
+        <div class="menu-item">
+            <strong>Adana Kebap</strong>
+            <span class="price">120,-</span><br>
+            Ostrý mletý jehněčí kebab s chilli a sumakem
+        </div>
+
+        <div class="menu-item">
+            <strong>Urfa Kebap</strong>
+            <span class="price">120,-</span><br>
+            Stejný jako Adana, ale bez chilli (pro ty co to nesnáší)
+        </div>
+
+        <div class="menu-item">
+            <strong>Tavuk Şiş</strong>
+            <span class="price">110,-</span><br>
+            Kuřecí špízy marinované v jogurtu a koření
+        </div>
+
+        <div class="menu-item">
+            <strong>Kuzu Şiş</strong>
+            <span class="price">140,-</span><br>
+            Jehněčí špízy
+        </div>
+
+        <div class="menu-item">
+            <strong>Karışık Kebap</strong>
+            <span class="price">180,-</span><br>
+            Mix všeho - Adana + kuře + jehněčí
+        </div>
+
+        <div class="menu-item">
+            <strong>Dürüm</strong>
+            <span class="price">90,- MALY 130,- VELKY</span><br>
+            V lavashi s salátem, cibulí a omáčkou
+        </div>
+
+        <div class="menu-item">
+            <strong>Lahmacun</strong>
+            <span class="price">120,-</span><br>
+            Turecká PIZZA s mletým masem
+        </div>
+
+        <p style="margin-top:20px; font-size:14px; color:#555;">
+            Omáčky: česneková, chilli, jogurtová.
+        </p>
+    </div>
+
+    <div class="box hours">
+        <h2>Otevírací doba</h2>
+        <p>Není pevná, sledujte inzerci.</p>
+        <p style="margin-top:12px; font-size:14px;">
+            Poslední objednávka 30 minut před zavíračkou.<br>
+            Někdy zavřeme dřív, když dojde maso.
+        </p>
+    </div>
+
+    <div class="box contact">
+        <h2>Kontakt & Lokace</h2>
+        <p><strong>Adresa:</strong> Palomino Creek</p>
+        <p><strong>Provozovatel:</strong> Mustafa Kebabçıoğlu</p>
+        <p><strong>Telefon:</strong> 354 174</p>
+        <p><strong>Platby:</strong> hotovost</p>
+        <p style="margin-top:15px;">
+            Najdete nás za bankou v uličce.<br>
+            Parkování před budovou (když není plno).
+        </p>
+    </div>
+
+</div>
+
+<div class="footer">
+    Ocakbaşı Kebab • Palomino Creek • © 2026 Mustafa Kebabçıoğlu<br>
+    Web udělal synovec.
+</div>
+
+</body>
+</html>
