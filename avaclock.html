@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AvaClock</title>
+  <style>
+    :root {
+      --bg: #0f0f13;
+      --card: #1a1a22;
+      --accent: #6c5ce7;
+      --accent2: #a29bfe;
+      --text: #f0f0f5;
+      --muted: #a0a0b0;
+      --green: #00cec9;
+      --border: #2a2a35;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+      line-height: 1.5;
+    }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      text-align: center;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.8rem;
+      text-align: center;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem 1.8rem;
+      width: 100%;
+      max-width: 420px;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .big-time {
+      font-size: 3.2rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+      color: var(--green);
+      text-align: center;
+      margin: 0.2rem 0 0.5rem;
+    }
+    .real-time {
+      font-size: 1.5rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      color: var(--text);
+    }
+    .tz-info {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+    .rate {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--accent2);
+      margin-top: 0.8rem;
+    }
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--accent2);
+    }
+    .form-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+    input[type="time"], input[type="datetime-local"], select {
+      background: #12121a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.55rem 0.7rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      flex: 1;
+      min-width: 120px;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button:hover { background: #5a4bd1; }
+    .result {
+      margin-top: 0.9rem;
+      padding: 0.9rem 1rem;
+      background: #12121a;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      text-align: center;
+      min-height: 3.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      line-height: 1.4;
+    }
+    .result .main-line {
+      white-space: normal;
+    }
+    .result strong {
+      color: var(--green);
+      font-weight: 700;
+    }
+    .result .date-line {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.6rem;
+      text-align: center;
+    }
+    footer {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+      max-width: 420px;
+    }
+    .clock-face {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      margin: 0.8rem auto 0.5rem;
+      position: relative;
+      background: #12121a;
+    }
+    .hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: bottom center;
+      background: var(--text);
+      border-radius: 2px;
+    }
+    .hour-hand { width: 4px; height: 40px; margin-left: -2px; background: var(--accent2); }
+    .minute-hand { width: 3px; height: 55px; margin-left: -1.5px; background: var(--green); }
+    .second-hand { width: 1.5px; height: 62px; margin-left: -0.75px; background: #ff7675; }
+    .center-dot {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 10px; height: 10px;
+      background: var(--text);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <h1>AvaClock</h1>
+
+  <div class="card">
+    <div class="label">Current game time</div>
+    <div class="big-time" id="gameClock">--:--:--</div>
+    <div class="clock-face" id="analog">
+      <div class="hand hour-hand" id="hourHand"></div>
+      <div class="hand minute-hand" id="minuteHand"></div>
+      <div class="hand second-hand" id="secondHand"></div>
+      <div class="center-dot"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">Your local real time</div>
+    <div class="real-time" id="realClock">--:--:--</div>
+    <div class="tz-info" id="tzInfo"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">When will it be … in-game</div>
+    <div class="form-row">
+      <input type="time" id="targetGameTime" value="07:00" step="60">
+      <button onclick="calcWhenGameTime()">Calculate</button>
+    </div>
+    <div class="result" id="whenResult">
+      <div class="main-line">Enter a game time and click Calculate</div>
+    </div>
+    <p class="hint">Result is shown in your local timezone (detected automatically)</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Convert real → game time</div>
+    <div class="form-row">
+      <input type="datetime-local" id="realInput">
+      <button onclick="convertRealToGame()">Convert</button>
+    </div>
+    <div class="result" id="convertResult">
+      <div class="main-line">Pick a date &amp; time</div>
+    </div>
+    <p class="hint">Time is interpreted in your local timezone.</p>
+  </div>
+
+  <script>
+    const REF_UTC = new Date('2026-10-21T17:24:00.000Z');
+    const REF_GAME_SEC = 21 * 3600 + 48 * 60;
+
+    function getGameSeconds(date = new Date()) {
+      const deltaSec = (date.getTime() - REF_UTC.getTime()) / 1000;
+      let gameSec = REF_GAME_SEC + 2 * deltaSec;
+      gameSec = ((gameSec % 86400) + 86400) % 86400;
+      return gameSec;
+    }
+
+    function formatHMS(totalSec) {
+      const h = Math.floor(totalSec / 3600);
+      const m = Math.floor((totalSec % 3600) / 60);
+      const s = Math.floor(totalSec % 60);
+      return String(h).padStart(2,'0') + ':' +
+             String(m).padStart(2,'0') + ':' +
+             String(s).padStart(2,'0');
+    }
+
+    function updateClocks() {
+      const now = new Date();
+      const gameSec = getGameSeconds(now);
+
+      document.getElementById('gameClock').textContent = formatHMS(gameSec);
+
+      const h = (gameSec / 3600) % 12;
+      const m = (gameSec % 3600) / 60;
+      const s = gameSec % 60;
+      document.getElementById('hourHand').style.transform =
+        `translateX(-50%) rotate(${h * 30 + m * 0.5}deg)`;
+      document.getElementById('minuteHand').style.transform =
+        `translateX(-50%) rotate(${m * 6}deg)`;
+      document.getElementById('secondHand').style.transform =
+        `translateX(-50%) rotate(${s * 6}deg)`;
+
+      document.getElementById('realClock').textContent =
+        now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const offsetMin = -now.getTimezoneOffset();
+      const sign = offsetMin >= 0 ? '+' : '-';
+      const oh = String(Math.floor(Math.abs(offsetMin) / 60)).padStart(2,'0');
+      const om = String(Math.abs(offsetMin) % 60).padStart(2,'0');
+      document.getElementById('tzInfo').textContent =
+        `${tz} (UTC${sign}${oh}:${om})`;
+    }
+
+    function calcWhenGameTime() {
+      const input = document.getElementById('targetGameTime').value;
+      if (!input) return;
+      const [th, tm] = input.split(':').map(Number);
+      const targetSec = th * 3600 + tm * 60;
+
+      const now = new Date();
+      const currentGameSec = getGameSeconds(now);
+
+      let deltaGameSec = targetSec - currentGameSec;
+      if (deltaGameSec <= 0) deltaGameSec += 86400;
+
+      const deltaRealSec = deltaGameSec / 2;
+      const targetDate = new Date(now.getTime() + deltaRealSec * 1000);
+
+      const timeStr = targetDate.toLocaleTimeString('en-GB', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+      const dateStr = targetDate.toLocaleDateString('en-GB', {
+        weekday: 'short', day: 'numeric', month: 'short'
+      });
+
+      const resultEl = document.getElementById('whenResult');
+      resultEl.innerHTML = `
+        <div class="main-line">Game <strong>${input}</strong> will be at <strong>${timeStr}</strong></div>
+        <div class="date-line">${dateStr}</div>
+      `;
+    }
+
+    function convertRealToGame() {
+      const val = document.getElementById('realInput').value;
+      if (!val) return;
+      // datetime-local is in local time, JS Date parses it as local
+      const d = new Date(val);
+      if (isNaN(d.getTime())) {
+        document.getElementById('convertResult').innerHTML =
+          '<div class="main-line">Invalid date</div>';
+        return;
+      }
+      const gameSec = getGameSeconds(d);
+      document.getElementById('convertResult').innerHTML =
+        `<div class="main-line">Game time: <strong>${formatHMS(gameSec)}</strong></div>`;
+    }
+
+    // Init
+    updateClocks();
+    setInterval(updateClocks, 250);
+
+    const now = new Date();
+    now.setSeconds(0, 0);
+    const localISO = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+      .toISOString().slice(0, 16);
+    document.getElementById('realInput').value = localISO;
+
+    calcWhenGameTime();
+  </script>
+</body>
+</html>
