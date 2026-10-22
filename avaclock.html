@@ -8,343 +8,67 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@400;600&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
     :root {
-      --bg: #0c0e10;
-      --card-border: rgba(229, 231, 235, 0.04);
-      --text: #beb3af;
-      --text-bright: #ececec;
-      --muted: rgba(190, 179, 175, 0.65);
-      --gold: #e1c285;
-      --gold-dark: #5b4735;
-      --accent-line: rgba(206, 193, 173, 0.3);
-      --input-bg: rgb(19, 19, 22);
-      --btn-top: rgb(40, 52, 64);
-      --btn-bottom: rgb(27, 36, 44);
-      --hand-hour: #d0bd98;
-      --hand-min: #e1c285;
-      --hand-sec: #c06b6b;
+      --bg:#0c0e10; --card-border:rgba(229,231,235,.06); --text:#beb3af;
+      --text-bright:#ececec; --muted:rgba(190,179,175,.65); --gold:#e1c285;
+      --gold-dark:#5b4735; --accent-line:rgba(206,193,173,.3); --input-bg:rgb(19,19,22);
+      --btn-top:rgb(40,52,64); --btn-bottom:rgb(27,36,44);
+      --btn-accent-top:rgb(85,45,45); --btn-accent-bottom:rgb(55,30,30);
+      --hand-hour:#d0bd98; --hand-min:#e1c285; --hand-sec:#c06b6b; --danger:#d9534f;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body { min-height: 100vh; }
-
-    body {
-      font-family: "Open Sans", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.75rem 2rem 2.5rem;
-      line-height: 1.5;
-      font-size: 16px;
-      text-rendering: optimizeLegibility;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent-line), var(--accent-line), transparent);
-      z-index: 10;
-    }
-
-    .header {
-      width: 100%;
-      max-width: 1100px;
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-
-    h1 {
-      font-family: "Merriweather", serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: transparent;
-      background-clip: text;
-      -webkit-background-clip: text;
-      background-image: linear-gradient(var(--gold), var(--gold-dark));
-      letter-spacing: 0.02em;
-      margin-bottom: 0.2rem;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.95rem;
-      font-family: "Poppins", sans-serif;
-    }
-
-    .divider {
-      width: 100px;
-      height: 1px;
-      margin: 0.6rem auto 0;
-      background: linear-gradient(90deg, transparent, var(--accent-line), transparent);
-    }
-
-    .layout {
-      width: 100%;
-      max-width: 1100px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto auto;
-      gap: 1.1rem;
-    }
-
-    .card {
-      position: relative;
-      background: linear-gradient(rgba(20, 25, 30, 0.55), rgba(20, 25, 30, 0.15));
-      border: 2px solid var(--card-border);
-      box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.35);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 1.4rem 1.6rem;
-    }
-
-    .card-hero {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 2rem;
-      padding: 1.6rem 2rem;
-    }
-
-    .hero-left, .hero-right {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .hero-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .label {
-      font-family: "Poppins", sans-serif;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-      font-weight: 600;
-    }
-
-    .big-time {
-      font-family: "Merriweather", serif;
-      font-size: 3.4rem;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.03em;
-      color: var(--gold);
-      text-shadow: 0 0 20px rgba(225, 194, 133, 0.15);
-      line-height: 1.1;
-    }
-
-    .real-time {
-      font-family: "Merriweather", serif;
-      font-size: 2rem;
-      font-weight: 600;
-      font-variant-numeric: tabular-nums;
-      color: var(--text-bright);
-      line-height: 1.15;
-    }
-
-    .tz-info {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
-    }
-
-    .rate-note {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.45rem;
-    }
-
-    .clock-face {
-      width: 170px;
-      height: 170px;
-      border-radius: 50%;
-      border: 2px solid rgba(206, 193, 173, 0.22);
-      position: relative;
-      background: radial-gradient(circle at 50% 45%, rgba(30, 34, 40, 0.9), rgba(12, 14, 16, 0.95));
-      box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.55), 0 0 12px rgba(0, 0, 0, 0.25);
-    }
-
-    .clock-face::after {
-      content: "";
-      position: absolute;
-      inset: -5px;
-      border-radius: 50%;
-      border: 1px solid rgba(206, 193, 173, 0.08);
-      pointer-events: none;
-    }
-
-    .hand {
-      position: absolute;
-      bottom: 50%;
-      left: 50%;
-      transform-origin: bottom center;
-      border-radius: 1px;
-    }
-
-    .hour-hand  { width: 3.5px; height: 42px; margin-left: -1.75px; background: var(--hand-hour); }
-    .minute-hand { width: 2.5px; height: 58px; margin-left: -1.25px; background: var(--hand-min); }
-    .second-hand { width: 1.5px; height: 65px; margin-left: -0.75px; background: var(--hand-sec); }
-
-    .center-dot {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 10px; height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 5;
-      box-shadow: 0 0 6px rgba(225, 194, 133, 0.4);
-    }
-
-    .tick {
-      position: absolute;
-      width: 2px;
-      height: 7px;
-      background: rgba(206, 193, 173, 0.35);
-      left: 50%;
-      top: 7px;
-      margin-left: -1px;
-      transform-origin: 50% 78px;
-    }
-
-    .section-title {
-      font-family: "Merriweather", serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: transparent;
-      background-clip: text;
-      -webkit-background-clip: text;
-      background-image: linear-gradient(var(--gold), var(--gold-dark));
-    }
-
-    .form-row {
-      display: flex;
-      gap: 0.55rem;
-      margin-bottom: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    input[type="time"],
-    input[type="datetime-local"] {
-      background: var(--input-bg);
-      border: 1px solid rgba(0, 0, 0, 0.45);
-      color: var(--text-bright);
-      padding: 0.55rem 0.7rem;
-      border-radius: 0;
-      font-size: 0.95rem;
-      font-family: "Open Sans", sans-serif;
-      flex: 1;
-      min-width: 140px;
-      accent-color: var(--gold-dark);
-    }
-
-    input:focus {
-      outline: none;
-      border-color: rgba(206, 193, 173, 0.45);
-      box-shadow: 0 0 0 1px rgba(206, 193, 173, 0.15);
-    }
-
-    button {
-      display: inline-block;
-      border-radius: 0;
-      padding: 0.55rem 1.2rem;
-      border: 1px solid rgba(0, 0, 0, 0.6);
-      background: linear-gradient(var(--btn-top), var(--btn-bottom));
-      color: #ececec;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.95rem;
-      font-family: "Poppins", sans-serif;
-      font-weight: 600;
-      line-height: normal;
-      outline: none;
-      white-space: nowrap;
-    }
-
-    button:hover {
-      color: #fff;
-      background: radial-gradient(at 50% 100%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)),
-                  linear-gradient(var(--btn-top), var(--btn-bottom));
-    }
-
-    button:active { transform: translateY(1px); }
-
-    .result {
-      margin-top: 0.85rem;
-      padding: 0.95rem 1rem;
-      background: rgba(10, 12, 14, 0.55);
-      border: 1px solid rgba(229, 231, 235, 0.03);
-      font-size: 1.02rem;
-      text-align: center;
-      min-height: 3.4rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.25rem;
-      line-height: 1.4;
-    }
-
-    .result .main-line { color: var(--text); }
-    .result strong { color: var(--gold); font-weight: 700; }
-    .result .date-line { font-size: 0.88rem; color: var(--muted); }
-
-    .hint {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-top: 0.55rem;
-      text-align: center;
-    }
-
-    footer {
-      margin-top: 1.75rem;
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    footer a {
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    footer a:hover { color: #fff; }
-
-    @media (max-width: 820px) {
-      body { padding: 1.25rem 1rem 2rem; }
-
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .card-hero {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
-        padding: 1.4rem 1.4rem;
-      }
-
-      .big-time { font-size: 2.8rem; }
-      .real-time { font-size: 1.6rem; }
-      .clock-face { width: 140px; height: 140px; }
-      .hour-hand  { height: 35px; }
-      .minute-hand { height: 48px; }
-      .second-hand { height: 54px; }
-      .tick { transform-origin: 50% 63px; top: 6px; height: 6px; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{min-height:100vh}
+    body{font-family:"Open Sans",sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;align-items:center;padding:1.75rem 2rem 2.5rem;line-height:1.5;font-size:16px;text-rendering:optimizeLegibility}
+    body::before{content:"";position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent-line),var(--accent-line),transparent);z-index:10}
+    .header{width:100%;max-width:1100px;text-align:center;margin-bottom:1.5rem}
+    h1{font-family:"Merriweather",serif;font-size:2.2rem;font-weight:700;color:transparent;background-clip:text;-webkit-background-clip:text;background-image:linear-gradient(var(--gold),var(--gold-dark));letter-spacing:.02em;margin-bottom:.2rem}
+    .subtitle{color:var(--muted);font-size:.88rem;font-family:"Poppins",sans-serif}
+    .layout{width:100%;max-width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+    .card{position:relative;background:linear-gradient(rgba(20,25,30,.55),rgba(20,25,30,.15));border:2px solid var(--card-border);box-shadow:0 0 .4rem rgba(0,0,0,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:1.4rem 1.6rem;border-radius:4px}
+    .card-hero{grid-column:1/-1;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem;padding:1.6rem 2rem}
+    .hero-left,.hero-right{display:flex;flex-direction:column;align-items:center;text-align:center}
+    .hero-center{display:flex;flex-direction:column;align-items:center}
+    .label{font-family:"Poppins",sans-serif;font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.4rem;font-weight:600}
+    .big-time{font-family:"Merriweather",serif;font-size:3.4rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.03em;color:var(--gold);text-shadow:0 0 20px rgba(225,194,133,.15);line-height:1.1}
+    .real-time{font-family:"Merriweather",serif;font-size:2rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text-bright);line-height:1.15}
+    .tz-info{font-size:.82rem;color:var(--muted);margin-top:.3rem}
+    .clock-face{width:170px;height:170px;border-radius:50%;border:2px solid rgba(206,193,173,.22);position:relative;background:radial-gradient(circle at 50% 45%,rgba(30,34,40,.9),rgba(12,14,16,.95));box-shadow:inset 0 0 18px rgba(0,0,0,.55),0 0 12px rgba(0,0,0,.25)}
+    .clock-face::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(206,193,173,.08);pointer-events:none}
+    .hand{position:absolute;bottom:50%;left:50%;transform-origin:bottom center;border-radius:1px}
+    .hour-hand{width:3.5px;height:42px;margin-left:-1.75px;background:var(--hand-hour)}
+    .minute-hand{width:2.5px;height:58px;margin-left:-1.25px;background:var(--hand-min)}
+    .second-hand{width:1.5px;height:65px;margin-left:-.75px;background:var(--hand-sec)}
+    .center-dot{position:absolute;top:50%;left:50%;width:10px;height:10px;background:var(--gold);border-radius:50%;transform:translate(-50%,-50%);z-index:5;box-shadow:0 0 6px rgba(225,194,133,.4)}
+    .tick{position:absolute;width:2px;height:7px;background:rgba(206,193,173,.35);left:50%;top:7px;margin-left:-1px;transform-origin:50% 78px}
+    .section-title{font-family:"Merriweather",serif;font-size:1.1rem;font-weight:700;margin-bottom:1rem;color:transparent;background-clip:text;-webkit-background-clip:text;background-image:linear-gradient(var(--gold),var(--gold-dark));display:flex;align-items:center;gap:.5rem}
+    .form-row{display:flex;gap:.55rem;margin-bottom:.75rem;flex-wrap:wrap;align-items:center}
+    input[type=time],input[type=datetime-local],input[type=number]{background:var(--input-bg);border:1px solid rgba(206,193,173,.15);color:var(--text-bright);padding:.55rem .7rem;font-size:.95rem;font-family:"Open Sans",sans-serif;flex:1;min-width:120px;accent-color:var(--gold-dark);border-radius:3px}
+    input:focus{outline:none;border-color:rgba(206,193,173,.45);box-shadow:0 0 0 1px rgba(206,193,173,.15)}
+    button{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.55rem 1.1rem;border:1px solid rgba(0,0,0,.6);background:linear-gradient(var(--btn-top),var(--btn-bottom));color:#ececec;cursor:pointer;transition:background .2s,color .2s;font-size:.9rem;font-family:"Poppins",sans-serif;font-weight:600;line-height:normal;outline:none;white-space:nowrap;border-radius:3px}
+    button:hover{color:#fff;background:radial-gradient(at 50% 100%,rgba(255,255,255,.1),rgba(255,255,255,0)),linear-gradient(var(--btn-top),var(--btn-bottom))}
+    button:active{transform:translateY(1px)}
+    button.btn-crash{background:linear-gradient(var(--btn-accent-top),var(--btn-accent-bottom));border-color:rgba(217,83,79,.4)}
+    button.btn-crash:hover{background:radial-gradient(at 50% 100%,rgba(255,255,255,.15),rgba(255,255,255,0)),linear-gradient(var(--btn-accent-top),var(--btn-accent-bottom))}
+    .crash-counter-box{background:rgba(10,12,14,.6);border:1px solid rgba(229,231,235,.08);padding:.85rem 1rem;border-radius:4px;display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem;gap:.75rem}
+    .crash-val{font-family:"Merriweather",serif;font-size:1.5rem;color:var(--gold);font-weight:bold}
+    .result{margin-top:.85rem;padding:.95rem 1rem;background:rgba(10,12,14,.55);border:1px solid rgba(229,231,235,.03);font-size:1rem;text-align:center;min-height:3.4rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;line-height:1.4;border-radius:3px}
+    .result .main-line{color:var(--text)} .result strong{color:var(--gold);font-weight:700}
+    .result .date-line{font-size:.88rem;color:var(--muted)}
+    .hint{font-size:.78rem;color:var(--muted);margin-top:.55rem;text-align:center}
+    .rules-banner{grid-column:1/-1;font-size:.82rem;color:var(--muted);background:rgba(15,18,22,.4);border:1px dashed rgba(206,193,173,.15);padding:.75rem 1rem;border-radius:4px;display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+    .rules-banner span{display:inline-flex;align-items:center;gap:.4rem}
+    footer{margin-top:2rem;font-size:.75rem;color:var(--muted);text-align:center}
+    @media(max-width:820px){
+      body{padding:1.25rem 1rem 2rem}
+      .layout{grid-template-columns:1fr}
+      .card-hero{grid-template-columns:1fr;gap:1.25rem;padding:1.4rem}
+      .big-time{font-size:2.8rem}.real-time{font-size:1.6rem}
+      .clock-face{width:140px;height:140px}
+      .hour-hand{height:35px}.minute-hand{height:48px}.second-hand{height:54px}
+      .tick{transform-origin:50% 63px;top:6px;height:6px}
+      .crash-counter-box{align-items:flex-start;flex-direction:column}
     }
   </style>
 </head>
@@ -359,28 +83,26 @@
         <div class="label">Current game time</div>
         <div class="big-time" id="gameClock">--:--:--</div>
       </div>
-
       <div class="hero-center">
         <div class="clock-face" id="analog">
-          <div class="tick" style="transform: rotate(0deg)"></div>
-          <div class="tick" style="transform: rotate(30deg)"></div>
-          <div class="tick" style="transform: rotate(60deg)"></div>
-          <div class="tick" style="transform: rotate(90deg)"></div>
-          <div class="tick" style="transform: rotate(120deg)"></div>
-          <div class="tick" style="transform: rotate(150deg)"></div>
-          <div class="tick" style="transform: rotate(180deg)"></div>
-          <div class="tick" style="transform: rotate(210deg)"></div>
-          <div class="tick" style="transform: rotate(240deg)"></div>
-          <div class="tick" style="transform: rotate(270deg)"></div>
-          <div class="tick" style="transform: rotate(300deg)"></div>
-          <div class="tick" style="transform: rotate(330deg)"></div>
+          <div class="tick" style="transform:rotate(0deg)"></div>
+          <div class="tick" style="transform:rotate(30deg)"></div>
+          <div class="tick" style="transform:rotate(60deg)"></div>
+          <div class="tick" style="transform:rotate(90deg)"></div>
+          <div class="tick" style="transform:rotate(120deg)"></div>
+          <div class="tick" style="transform:rotate(150deg)"></div>
+          <div class="tick" style="transform:rotate(180deg)"></div>
+          <div class="tick" style="transform:rotate(210deg)"></div>
+          <div class="tick" style="transform:rotate(240deg)"></div>
+          <div class="tick" style="transform:rotate(270deg)"></div>
+          <div class="tick" style="transform:rotate(300deg)"></div>
+          <div class="tick" style="transform:rotate(330deg)"></div>
           <div class="hand hour-hand" id="hourHand"></div>
           <div class="hand minute-hand" id="minuteHand"></div>
           <div class="hand second-hand" id="secondHand"></div>
           <div class="center-dot"></div>
         </div>
       </div>
-
       <div class="hero-right">
         <div class="label">Your local real time</div>
         <div class="real-time" id="realClock">--:--:--</div>
@@ -389,128 +111,293 @@
     </div>
 
     <div class="card">
-      <div class="section-title">When will it be … in-game</div>
+      <div class="section-title"><i class="fa-solid fa-server" style="color:var(--gold)"></i> Manual offset</div>
+      <div class="crash-counter-box">
+        <div>
+          <div style="font-size:.8rem;color:var(--muted);text-transform:uppercase">Added In-Game Hours</div>
+          <div class="crash-val" id="crashCountDisplay">+0h</div>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <button type="button" class="btn-crash" onclick="addCrash(1)"><i class="fa-solid fa-plus"></i> 1 Crash (+1h)</button>
+          <button type="button" onclick="addCrash(-1)"><i class="fa-solid fa-minus"></i></button>
+        </div>
+      </div>
       <div class="form-row">
-        <input type="time" id="targetGameTime" value="07:00" step="60">
-        <button type="button" onclick="calcWhenGameTime()">Calculate</button>
+        <input type="number" id="manualCrashInput" placeholder="Set total crash hours" min="0" step="1">
+        <button type="button" onclick="setManualCrash()">Set</button>
+        <button type="button" onclick="resetCrashes()" style="background:transparent;border-color:rgba(206,193,173,.2)"><i class="fa-solid fa-trash-can"></i> Reset</button>
       </div>
-      <div class="result" id="whenResult">
-        <div class="main-line">Enter a game time and click Calculate</div>
-      </div>
-      <p class="hint">Result is shown in your local timezone (detected automatically)</p>
     </div>
 
     <div class="card">
-      <div class="section-title">Convert real → game time</div>
+      <div class="section-title"><i class="fa-solid fa-hourglass-half" style="color:var(--gold)"></i> When will it be … in-game</div>
+      <div class="form-row">
+        <input type="time" id="targetGameTime" value="22:05" step="60">
+        <button type="button" onclick="calcWhenGameTime()">Calculate</button>
+      </div>
+      <div class="result" id="whenResult"><div class="main-line">Enter a game time and click Calculate</div></div>
+    </div>
+
+    <div class="card" style="grid-column:1/-1">
+      <div class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--gold)"></i> Convert real date/time &rarr; game time</div>
       <div class="form-row">
         <input type="datetime-local" id="realInput">
-        <button type="button" onclick="convertRealToGame()">Convert</button>
+        <button type="button" onclick="convertRealToGame()">Convert Time</button>
       </div>
-      <div class="result" id="convertResult">
-        <div class="main-line">Pick a date &amp; time</div>
-      </div>
-      <p class="hint">Time is interpreted in your local timezone.</p>
+      <div class="result" id="convertResult"><div class="main-line">Pick a date &amp; time</div></div>
+      <p class="hint">Interpreted in your local timezone and factors in past daily shifts &amp; crash offsets.</p>
     </div>
   </div>
 
   <script>
-    const REF_UTC = new Date('2026-10-21T17:24:00.000Z');
-    const REF_GAME_SEC = 21 * 3600 + 48 * 60;
+    'use strict';
+
+    const REF_UTC_MS = Date.UTC(2026, 9, 22, 17, 2, 0);
+    const REF_GAME_SEC = 22 * 3600 + 5 * 60;
+    const DAY_SEC = 86400;
+    const DAY_MS = 86400000;
+    const SEARCH_LIMIT_MS = 48 * 3600 * 1000;
+    const SEARCH_STEP_MS = 30000;
+
+    const pragueFormatter = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Prague',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hourCycle: 'h23'
+    });
+
+    const elements = {
+      gameClock: document.getElementById('gameClock'),
+      realClock: document.getElementById('realClock'),
+      tzInfo: document.getElementById('tzInfo'),
+      hourHand: document.getElementById('hourHand'),
+      minuteHand: document.getElementById('minuteHand'),
+      secondHand: document.getElementById('secondHand'),
+      crashCountDisplay: document.getElementById('crashCountDisplay'),
+      targetGameTime: document.getElementById('targetGameTime'),
+      whenResult: document.getElementById('whenResult'),
+      realInput: document.getElementById('realInput'),
+      convertResult: document.getElementById('convertResult'),
+      manualCrashInput: document.getElementById('manualCrashInput')
+    };
+
+    let storedCrashHours = 0;
+    try {
+      storedCrashHours = Number.parseInt(localStorage.getItem('avaclock_crash_hours') || '0', 10);
+    } catch (error) {
+    }
+    let crashOffsetHours = Number.isFinite(storedCrashHours) && storedCrashHours >= 0
+      ? storedCrashHours
+      : 0;
+
+    function getPragueTimeComponents(date) {
+      const result = {};
+      for (const part of pragueFormatter.formatToParts(date)) {
+        if (part.type !== 'literal') result[part.type] = Number.parseInt(part.value, 10);
+      }
+      return result;
+    }
+
+    function getLocalDayNumber(parts) {
+      return Math.floor(Date.UTC(parts.year, parts.month - 1, parts.day) / DAY_MS);
+    }
+
+    function getDailyShiftCount(date) {
+      const referenceParts = getPragueTimeComponents(new Date(REF_UTC_MS));
+      const targetParts = getPragueTimeComponents(date);
+
+      const referenceDay = getLocalDayNumber(referenceParts);
+      const targetDay = getLocalDayNumber(targetParts);
+
+      const referenceBeforeTen =
+        referenceParts.hour < 10;
+      const targetBeforeTen =
+        targetParts.hour < 10;
+
+      const referenceRank = referenceDay - (referenceBeforeTen ? 1 : 0);
+      const targetRank = targetDay - (targetBeforeTen ? 1 : 0);
+
+      return targetRank - referenceRank;
+    }
+
+    function getUnwrappedGameSeconds(date = new Date()) {
+      const deltaRealSec = (date.getTime() - REF_UTC_MS) / 1000;
+      return REF_GAME_SEC
+        + deltaRealSec * 2
+        + getDailyShiftCount(date) * 3600
+        + crashOffsetHours * 3600;
+    }
 
     function getGameSeconds(date = new Date()) {
-      const deltaSec = (date.getTime() - REF_UTC.getTime()) / 1000;
-      let gameSec = REF_GAME_SEC + 2 * deltaSec;
-      gameSec = ((gameSec % 86400) + 86400) % 86400;
-      return gameSec;
+      const seconds = getUnwrappedGameSeconds(date);
+      return ((seconds % DAY_SEC) + DAY_SEC) % DAY_SEC;
     }
 
     function formatHMS(totalSec) {
-      const h = Math.floor(totalSec / 3600);
-      const m = Math.floor((totalSec % 3600) / 60);
-      const s = Math.floor(totalSec % 60);
-      return String(h).padStart(2,'0') + ':' +
-             String(m).padStart(2,'0') + ':' +
-             String(s).padStart(2,'0');
+      const safeSec = ((Math.floor(totalSec) % DAY_SEC) + DAY_SEC) % DAY_SEC;
+      const h = Math.floor(safeSec / 3600);
+      const m = Math.floor((safeSec % 3600) / 60);
+      const s = safeSec % 60;
+      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function saveCrashOffset() {
+      try {
+        localStorage.setItem('avaclock_crash_hours', String(crashOffsetHours));
+      } catch (error) {
+      }
+      elements.crashCountDisplay.textContent = `+${crashOffsetHours}h`;
+      updateClocks();
+      calcWhenGameTime();
+    }
+
+    function addCrash(amount) {
+      crashOffsetHours = Math.max(0, crashOffsetHours + amount);
+      saveCrashOffset();
+    }
+
+    function setManualCrash() {
+      const val = Number.parseInt(elements.manualCrashInput.value, 10);
+      if (Number.isFinite(val) && val >= 0) {
+        crashOffsetHours = val;
+        elements.manualCrashInput.value = '';
+        saveCrashOffset();
+      }
+    }
+
+    function resetCrashes() {
+      crashOffsetHours = 0;
+      saveCrashOffset();
     }
 
     function updateClocks() {
       const now = new Date();
       const gameSec = getGameSeconds(now);
 
-      document.getElementById('gameClock').textContent = formatHMS(gameSec);
+      elements.gameClock.textContent = formatHMS(gameSec);
 
-      const h = (gameSec / 3600) % 12;
-      const m = (gameSec % 3600) / 60;
-      const s = gameSec % 60;
-      document.getElementById('hourHand').style.transform =
-        `translateX(-50%) rotate(${h * 30 + m * 0.5}deg)`;
-      document.getElementById('minuteHand').style.transform =
-        `translateX(-50%) rotate(${m * 6}deg)`;
-      document.getElementById('secondHand').style.transform =
-        `translateX(-50%) rotate(${s * 6}deg)`;
+      const hours = (gameSec / 3600) % 12;
+      const minutes = (gameSec % 3600) / 60;
+      const seconds = gameSec % 60;
 
-      document.getElementById('realClock').textContent =
-        now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      elements.hourHand.style.transform = `translateX(-50%) rotate(${hours * 30 + minutes * 0.5}deg)`;
+      elements.minuteHand.style.transform = `translateX(-50%) rotate(${minutes * 6}deg)`;
+      elements.secondHand.style.transform = `translateX(-50%) rotate(${seconds * 6}deg)`;
 
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const offsetMin = -now.getTimezoneOffset();
-      const sign = offsetMin >= 0 ? '+' : '-';
-      const oh = String(Math.floor(Math.abs(offsetMin) / 60)).padStart(2,'0');
-      const om = String(Math.abs(offsetMin) % 60).padStart(2,'0');
-      document.getElementById('tzInfo').textContent =
-        `${tz} (UTC${sign}${oh}:${om})`;
-    }
-
-    function calcWhenGameTime() {
-      const input = document.getElementById('targetGameTime').value;
-      if (!input) return;
-      const [th, tm] = input.split(':').map(Number);
-      const targetSec = th * 3600 + tm * 60;
-
-      const now = new Date();
-      const currentGameSec = getGameSeconds(now);
-
-      let deltaGameSec = targetSec - currentGameSec;
-      if (deltaGameSec <= 0) deltaGameSec += 86400;
-
-      const deltaRealSec = deltaGameSec / 2;
-      const targetDate = new Date(now.getTime() + deltaRealSec * 1000);
-
-      const timeStr = targetDate.toLocaleTimeString('en-GB', {
+      elements.realClock.textContent = now.toLocaleTimeString('en-GB', {
         hour: '2-digit', minute: '2-digit', second: '2-digit'
       });
-      const dateStr = targetDate.toLocaleDateString('en-GB', {
-        weekday: 'short', day: 'numeric', month: 'short'
-      });
 
-      document.getElementById('whenResult').innerHTML = `
-        <div class="main-line">Game <strong>${input}</strong> will be at <strong>${timeStr}</strong></div>
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const offsetMin = -now.getTimezoneOffset();
+      const sign = offsetMin >= 0 ? '+' : '-';
+      const offsetHours = String(Math.floor(Math.abs(offsetMin) / 60)).padStart(2, '0');
+      const offsetMinutes = String(Math.abs(offsetMin) % 60).padStart(2, '0');
+      elements.tzInfo.textContent = `${timezone} (UTC${sign}${offsetHours}:${offsetMinutes})`;
+    }
+
+    function showWhenResult(date, input) {
+      const timeStr = date.toLocaleTimeString('en-GB', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+      const dateStr = date.toLocaleDateString('en-GB', {
+        weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
+      });
+      elements.whenResult.innerHTML = `
+        <div class="main-line">Game <strong>${input}</strong> will occur at <strong>${timeStr}</strong></div>
         <div class="date-line">${dateStr}</div>
       `;
     }
 
-    function convertRealToGame() {
-      const val = document.getElementById('realInput').value;
-      if (!val) return;
-      const d = new Date(val);
-      if (isNaN(d.getTime())) {
-        document.getElementById('convertResult').innerHTML =
-          '<div class="main-line">Invalid date</div>';
-        return;
+    function calcWhenGameTime() {
+      const input = elements.targetGameTime.value;
+      if (!input) return;
+
+      const [targetHour, targetMinute] = input.split(':').map(Number);
+      if (!Number.isInteger(targetHour) || !Number.isInteger(targetMinute)) return;
+
+      const targetDaySec = targetHour * 3600 + targetMinute * 60;
+      const startMs = Date.now();
+      const endMs = startMs + SEARCH_LIMIT_MS;
+
+      let previousMs = startMs;
+      let previousRaw = getUnwrappedGameSeconds(new Date(previousMs));
+      let foundMs = null;
+
+      for (let testMs = Math.min(previousMs + SEARCH_STEP_MS, endMs);
+           testMs <= endMs;
+           testMs = Math.min(testMs + SEARCH_STEP_MS, endMs)) {
+        const currentRaw = getUnwrappedGameSeconds(new Date(testMs));
+
+        const targetCycle = Math.floor(previousRaw / DAY_SEC);
+        let candidateRaw = targetCycle * DAY_SEC + targetDaySec;
+        if (candidateRaw <= previousRaw + 0.0001) candidateRaw += DAY_SEC;
+
+        if (candidateRaw <= currentRaw + 0.0001) {
+          let low = previousMs;
+          let high = testMs;
+
+          while (high - low > 250) {
+            const mid = Math.floor((low + high) / 2);
+            const midRaw = getUnwrappedGameSeconds(new Date(mid));
+            if (midRaw >= candidateRaw) high = mid;
+            else low = mid;
+          }
+
+          const candidateMs = high;
+          const actual = getUnwrappedGameSeconds(new Date(candidateMs));
+          const distance = Math.abs(actual - candidateRaw);
+
+          if (distance <= 2.5) {
+            foundMs = candidateMs;
+            break;
+          }
+        }
+
+        if (testMs === endMs) break;
+        previousMs = testMs;
+        previousRaw = currentRaw;
       }
-      const gameSec = getGameSeconds(d);
-      document.getElementById('convertResult').innerHTML =
-        `<div class="main-line">Game time: <strong>${formatHMS(gameSec)}</strong></div>`;
+
+      if (foundMs !== null) {
+        showWhenResult(new Date(foundMs), input);
+      } else {
+        elements.whenResult.innerHTML = '<div class="main-line">Could not calculate target time within 48 hours</div>';
+      }
     }
 
-    updateClocks();
-    setInterval(updateClocks, 250);
+    function convertRealToGame() {
+      const value = elements.realInput.value;
+      if (!value) return;
 
-    const now = new Date();
-    now.setSeconds(0, 0);
-    const localISO = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
-      .toISOString().slice(0, 16);
-    document.getElementById('realInput').value = localISO;
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) {
+        elements.convertResult.innerHTML = '<div class="main-line">Invalid date input</div>';
+        return;
+      }
+
+      const gameSec = getGameSeconds(date);
+      elements.convertResult.innerHTML =
+        `<div class="main-line">Game time will be: <strong>${formatHMS(gameSec)}</strong></div>`;
+    }
+
+    function setDefaultRealInput() {
+      const now = new Date();
+      now.setSeconds(0, 0);
+      const localISO = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString().slice(0, 16);
+      elements.realInput.value = localISO;
+    }
+
+    elements.crashCountDisplay.textContent = `+${crashOffsetHours}h`;
+    setDefaultRealInput();
+    updateClocks();
+
+    setInterval(updateClocks, 1000);
 
     calcWhenGameTime();
   </script>
